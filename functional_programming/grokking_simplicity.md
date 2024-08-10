@@ -36,7 +36,15 @@ It is a discipline in which calculations do not modify the original data they ta
 
 Shallow copies are an essential aspect of the copy on write discipline. A shallow copy of a data structure is a copy whose properties share the same references as those from the source from which the copy was made. This means that changes made to the nested data in either the copy or the original will affect them both, as they reference the same underlying data.
 
-This technique makes the code memory efficient by avoiding the overhead of copying entire data structures each time they are taken as input. However, to ensure both performance and safety, it is crucial that each computation creates its own copy of the nested level, adhering to the copy-on-write discipline.
+This technique makes the code memory efficient by avoiding the overhead of copying entire data structures each time they are taken as input. However, to ensure both performance and safety, it is crucial that each computation creates its own copy of the nested level, adhering to the copy-on-write discipline. Code example:
+
+```javascript
+function addElementLast(array, element) {
+    const arrayCopy = [...array]; // Make a copy
+    arrayCopy.push(item); // Modify the copy
+    return arrayCopy; // Return the coy
+}
+```
 
 ## Defensive copy discipline
 
