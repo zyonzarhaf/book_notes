@@ -78,3 +78,14 @@ function addItemToCart(name, price) {
 }
 
 ```
+## Stratified design
+
+It is a design practice in which the software application is organized into layers of abstractions. Each layer represents a level of equal abstraction, consisting of:
+
+- Straightforward functions: Functions that solve the problem presented in their signatures at the right level of generality and detail in their bodies. 
+
+- Abstraction barrier: Some layers provide an interface that hides important implementation details, enabling developers to write code at a higher level without thinking on the layers beneath. Typically, code above the barrier can ignore implementation specifics, such as which data structure is used, while code below the barrier can disregard higher-level details, like what the functions are being used for.
+
+- Minimal interface: New features should ideally be developed at higher levels rather than lower levels, by using existing functions in the leves beneath. This approach helps avoid bloat and unnecessary modifications to code that should rarely change. The term "minimal" emphasizes the importance of leaving well-established levels of abstraction untouched.
+
+- Comfortable layers: The process of building layers of abstraction must serve a purpose: to make the code more reusable, testable and maintainable, allowing for faster delivery and higher quality software. If the tower of abstraction gets too tall at the expense of readability -- or other critical aspects -- and start to feel inconvenient, it is time to reassess and simplify. 
