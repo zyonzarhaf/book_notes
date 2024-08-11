@@ -89,3 +89,19 @@ It is a design practice in which the software application is organized into laye
 - Minimal interface: New features should ideally be developed at higher levels rather than lower levels, by using existing functions in the leves beneath. This approach helps avoid bloat and unnecessary modifications to code that should rarely change. The term "minimal" emphasizes the importance of leaving well-established levels of abstraction untouched.
 
 - Comfortable layers: The process of building layers of abstraction must serve a purpose: to make the code more reusable, testable and maintainable, allowing for faster delivery and higher quality software. If the tower of abstraction gets too tall at the expense of readability -- or other critical aspects -- and start to feel inconvenient, it is time to reassess and simplify. 
+
+## First-class abstractions
+
+A first-class value is a value that has three properties: it can be assigned to a variable, passed as argument to a function, or returned from a function. First-class values are crucial to functional programming, as they help create better abstractions and reduce code duplication.
+
+There are two significant scenarios in which first-class values prove to be particularly useful, as shown in the book: 
+
+1. Implicit argument in function name: When a function references a value in the local scope, and that value is named in the function's name.
+
+1. Function with varying behaviour: When a function includes behaviour that may vary, but this behaviour does not depend on any of the function's arguments (instead, similarly to the first case, they depend on the function's name).
+
+In both cases, the code could benefit from first-class values.
+
+- In the first scenario, instead of leaving the value implicitly defined in the function name, it can be turned into a first-class value, allowing it to be used as an explicit input/argument. 
+
+- In the second scenario, rather than hardcoding the varying behaviour in the function, this behaviour can be wrapped in another function, making it a first-class value that can be passed as an argument, just like any other value.
