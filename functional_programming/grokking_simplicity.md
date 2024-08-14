@@ -92,7 +92,7 @@ It is a design practice in which the software application is organized into laye
 
 ## First-class abstractions
 
-A first-class value is a value that has three properties: it can be assigned to a variable, passed as argument to a function, or returned from a function. First-class values are crucial to functional programming, as they help create better abstractions and reduce code duplication.
+A first-class value is a value that can be assigned to a variable, passed as argument to a function, or returned from a function. First-class values are crucial to functional programming, as they help create better abstractions and reduce code duplication.
 
 There are two significant scenarios in which first-class values prove to be particularly useful, as shown in the book: 
 
@@ -100,8 +100,124 @@ There are two significant scenarios in which first-class values prove to be part
 
 1. Function with varying behaviour: When a function includes behaviour that may vary, but this behaviour does not depend on any of the function's arguments (instead, similarly to the first case, they depend on the function's name).
 
-In both cases, the code could benefit from first-class values.
+In both cases, the code can benefit from first-class values.
 
-- In the first scenario, instead of leaving the value implicitly defined in the function name, it can be turned into a first-class value, allowing it to be used as an explicit input/argument. 
+- In the first scenario, instead of leaving the value implicitly defined in the function name, it can be turned into a first-class value, allowing it to be used as an explicit input/argument:
 
-- In the second scenario, rather than hardcoding the varying behaviour in the function, this behaviour can be wrapped in another function, making it a first-class value that can be passed as an argument, just like any other value.
+```javascript
+// Original function that implicitly uses 'price' in the function body
+function setPriceByName() {
+    const item = cart[name];
+    const newItem = objectSet(item, 'price',  price);
+    const newCart = objectSet(cart, name, newItem);
+    return newCart;
+}
+
+// Similar functions for setting different fields
+function setSizeByName() {
+    const item = cart[name];
+    const newItem = objectSet(item, 'size',  price);
+    const newCart = objectSet(cart, name, newItem);
+    return newCart;
+}
+
+function setQuantityByName() {
+    const item = cart[name];
+    const newItem = objectSet(item, 'quantity',  price);
+    const newCart = objectSet(cart, name, newItem);
+    return newCart;
+}
+
+function setQuantityByName() {
+    const item = cart[name];
+    const newItem = objectSet(item, 'price',  price);
+    const newCart = objectSet(cart, name, newItem);
+    return newCart;
+}
+
+// Refactored function that takes field and value as arguments and explicitly uses them in the body
+function setFieldByName(cart, name, field, value) {
+    // Run-time check to check if the string is valid
+    if (!validItemFields.includes(field)) {
+        throw `Not a valid item field: {'${field}'.}`;
+    }
+
+    // Translate old field name to new field name if necessary
+    if(translations.hasOwnProperty(field)) {
+        field = translations[field];
+    }
+    const item = cart[name];
+    const newItem = objectSet(item, field, value);
+    const newCart = objectSet(cart, name, newItem);
+    return newCart;
+}
+```
+
+- In the second scenario, rather than hardcoding the varying behaviour in the function, this behaviour can be wrapped in another function, making it a first-class value that can be passed as an argument -- just like any other value --:
+
+```javascript
+function doSomething() {
+    try {
+         // Do something
+    } catch (error) {
+        // Handle errors
+    }
+}
+
+function doSomethingElse() {
+    try {
+        // Do something else
+    } catch (error) {
+        // Handle errors
+    }
+}
+
+// Wrapper function to perform any action with error handling, encapsulating the above behaviours
+function tryCatchWrapper(f, errorHandler) {
+    try {
+        f();
+    } catch (error) {
+        errorHandler(error);
+    }
+}
+```
+
+First-class functions can also replace non-first-class syntax elements. In JavaScript, operators like + are not first-class because they cannot be assigned to a variable, passed as an argument, or returned from a function. We can encapsulate their behaviour to make them first-class:
+
+```javascript
+function plus(a, b) {
+    return a + b;
+}
+
+function minus (a, b) {
+    return a - b;
+}
+
+function times(a, b) {
+    return a * b;
+}
+
+function dividedBy(a, b) {
+    return a / b;
+}
+```
+
+This concept also applies to repetition structures and selection structures:
+
+```javascript
+function forEach(array, f) {
+   for (let i = 0; i < array.length; i++) {
+        const item = array[i];
+        f(item);
+    }
+}
+
+function when(test, then) {
+    if (test) return then();
+}
+
+function IF(test, then, ELSE) {
+    if (test) return then();
+    return ELSE();
+}
+```
