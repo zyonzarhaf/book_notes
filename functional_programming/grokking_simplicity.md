@@ -158,7 +158,7 @@ function setFieldByName(cart, name, field, value) {
 ```javascript
 function doSomething() {
     try {
-         // Do something
+        // Do something
     } catch (error) {
         // Handle errors
     }
@@ -206,7 +206,7 @@ This concept also applies to repetition structures and selection structures:
 
 ```javascript
 function forEach(array, f) {
-   for (let i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
         const item = array[i];
         f(item);
     }
@@ -221,3 +221,31 @@ function IF(test, then, ELSE) {
     return ELSE();
 }
 ```
+## Returning functions from functions
+
+As previously mentioned, first-class values can be assigned to a variable, passed as arguments to a function, or returned from a function. When a programming language supports functions as first-class values, it allows functions to return other functions. 
+
+This concept opens up new possibilities for abstraction and encapsulation. Sometimes, instead of calling the wrapper function immediately, it may be necessary to call it at a later time. This can be easily achieved by assigning the returned function to a variable:
+
+```javascript
+function tryCatchWrapper(f, errorHandler) {
+    return function(...args) {
+        try {
+            return f(...args);
+        } catch (error) {
+            errorHandler(error);
+        }
+    }
+}
+
+const later = tryCatchWrapper(function (a, b) {
+   // Do something with a 
+   // Do something with b
+}, handleError);
+
+// Call later -- which holds the returned function --
+// with the required arguments. 2 and 3 is just an example.
+// It could be anything, as long as it matches the function signature.
+later(2, 3);
+```
+By using this pattern, not only is the execution of the innermost function deferred, but it also becomes possible to pass arguments to it, eliminating the need to hardcode variables beforehand.
