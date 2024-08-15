@@ -249,3 +249,50 @@ const later = tryCatchWrapper(function (a, b) {
 later(2, 3);
 ```
 By using this pattern, not only is the execution of the innermost function deferred, but it also becomes possible to pass arguments to it, eliminating the need to hardcode variables beforehand.
+
+## Functional iteration
+
+As previously illustrated, first-class functions can effectively replace any syntax, including iterative structures. The practice of replacing for loops with functions is a well-established pattern in functional programming. This approach brings with it three widely recognized applications for dealing with data collections: the map, filter, and reduce functions.
+
+In general terms, the three functions work like this: the higher-order function takes a data collection and another function as arguments. Then, in its local scope, an empty collection is created. For each element in the original collection, the function that was passed as an argument is called with the element, which is then processed by this function and returned. Whatever the return value is, it is pushed to the empty collection. Finally, the collection is returned from the higher-order function.
+
+- Map: A function that transforms one array into another array of the same length:
+
+```javascript
+function map(array, f) {
+    const newArray = [];
+    forEach(array, function(element) {
+        const newElement = f(element);
+        newArray.push(newEelement);
+        // Alternatively,
+        // newArray.push(f(element));
+    });
+    return newArray;
+}
+```
+
+- Filter: A function that that creates a new array based on an existing array, but only containing elements that matches a specified condition. In other words, it creates a subset of the elements of an array:
+
+```javascript
+function filter(array, f) {
+    const newArray = [];
+    forEach(array, function(element) {
+        if(f(element))  {
+            newArray.push(element);
+        }
+    });
+    return newArray;
+}
+```
+
+- Reduce: A function that accumulates a value as it iterates over the array. The logic behind the accumulation and the returned value is decided by another function that is taken as argument, to which the current value of the accumulator and the current element of the iteration must be passed, and which returns a value of the same type as its first argument:
+
+```javascript 
+function reduce(array, init, f) {
+    let accum = init;
+    forEach(array, function(element) {
+      accum = f(accum, element);  
+    });
+    return accum;
+}
+```
