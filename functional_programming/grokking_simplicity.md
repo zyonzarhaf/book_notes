@@ -402,6 +402,20 @@ function biggestPurchasesBestCustomers(customers) {
     const bestCustomers = filter(customers, isGoodCustomer);
     const biggestPurchases = map(bestCustomers, selectBiggestPurchase); 
     return biggestPurchases;
+}
 ```
 
 In general, naming the callbacks results in clearer, more reusable code, because the callbacks are more reusable than the calls to the higher-order functions.
+
+However, there is still another issue to consider, which is the potential inefficiency of creating multiple intermediate arrays during chaining operations.
+
+To address this problem, there is a technique called stream fusion that minimizes the overhead associated with creating intermediate data structures and enhances performance.
+
+Stream fusion is the combination of multiple calculations into a single step, reducing memory usage and enhancing performance. Example of stream  fusion:
+
+```javascript
+function biggestPurchasesBestCustomers(customers) {
+    return map(filter(customers, isGoodCustomer), selectBiggestPurchase);
+}
+```
+In this example, instead of filtering the customers to create an intermediate array and then mapping over that array, filter and map are executed in a single pass.
