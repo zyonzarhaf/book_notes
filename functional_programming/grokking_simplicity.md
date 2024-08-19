@@ -296,3 +296,112 @@ function reduce(array, init, f) {
     return accum;
 }
 ```
+
+## Chaining functional tools
+
+While functional tools in isolation are usually enough to handle simple computations, complex calculations often require **chaining**: the process of breaking down intricate calculations into a series of steps, where each step involves the application of a functional tool.
+
+Example: consider the task of processing an array of customers to return the largest purchase for each customer who has made three or more purchases:
+
+```javascript
+function biggestPurchasesBestCustomers(customers) {
+    // Filter for only good customers
+    const bestCustomers = filter(customers, function(customer) {
+        return customer.purchases.length >= 3;
+    });
+
+    // Map those to their biggest purchases
+    const biggestPurchases = map(bestCustomers, function(customer) {
+        return reduce(customer.purchases,
+                      { total: 0 },
+                      function(biggestSoFar, purchase) {
+                        if(biggestSoFar.total > purchase.total) {
+                            return biggestSoFar;
+                        }
+                        return purchase;
+                     });
+    });
+    return biggestPurchases;
+}
+```
+Although the code successfully achieves its goal, there is a lot of room for improvement. For starter, the function can be more straightforward (solve the problem in the right level of detail and generality) by letting another function decide what value to compare. This gets rid of the dot notation, which is a language built-in feature from a lower level of abstraction. Improved version with 'maxKey':
+
+```javascript
+// Wrap the reduce function to find the largest value from an array,
+// using a callback to decide what value to compare
+function maxKey(array, init, f) {
+    return reduce(array,
+                  init,
+                  function(biggestSoFar, element) {
+                    if(f(biggestSoFar) > f(element) {
+                        return biggestSoFar;
+                    });
+                    return element;
+                  }
+}
+
+function biggestPurchasesBestCustomers(customers) {
+    const bestCustomers = filter(customers, function(customer) {
+        return customer.purchases.length >= 3;
+    });
+
+    const biggestPurchases = map(bestCustomers, function(customer) {
+        return maxKey(customer.purchases, { total: 0 }, function(purchase) {
+            return purchase.total;
+        });
+    } 
+    return biggestPurchases;
+```
+
+The code could be made even more clear by getting rid of the nested callbacks and return statements. This can be achieved by either naming the steps or naming the callbacks:
+
+Naming the steps:
+
+```javascript
+function selectBestCustomers(customers) {
+    filter(customers, function(customer) {
+        return customer.purchases.length >= 3;
+    });
+}
+
+function selectBiggestPurchases(customers) {
+    return map(customers, selectBiggestPurchase);
+}
+
+function selectBiggestPurchase(customer) {
+    return maxKey(customer.purchases,
+                  { total: 0 },
+                  function(purchase) {
+                    return purchase.total;
+                  }
+    );
+}
+
+function biggestPurchasesBestCustomers(customers) {
+    const bestCustomers = selectBestCustomers(customers);
+    const biggestPurchases = selectBiggestPurchases(bestCustomers);
+    return biggestPurchases;
+```
+
+Naming the callbacks:
+
+```javascript
+function isGoodCustomer(customer) {
+    return customer.purchases.length >= 3;
+}
+
+function selectBiggestPurchase(customer) {
+    return maxKey(customer.purchases, { total: 0 }, getPurchaseTotal);
+}
+
+function getPurchaseTotal(purchase) {
+    return purchase.total;
+}
+
+function biggestPurchasesBestCustomers(customers) {
+    const bestCustomers = filter(customers, isGoodCustomer);
+    const biggestPurchases = map(bestCustomers, selectBiggestPurchase); 
+    return biggestPurchases;
+```
+
+In general, naming the callbacks results in clearer, more reusable code, because the callbacks are more reusable than the calls to the higher-order functions.
