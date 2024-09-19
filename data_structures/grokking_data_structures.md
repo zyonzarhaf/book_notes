@@ -131,16 +131,16 @@ Use unsorted arrays when the write-to-read ratio is high, and opt for sorted arr
 
 ## Asymptotic analysis
 
-There are two main methods for measuring an algorithm's performance: profiling and asymptotic analysis. Profiling involves running the code with various inputs and measuring the time and memory consumption, while **asymptotic analysis uses mathematical formulas to describe runtime and space complexity in terms of input size**.
+There are two main ways to measure an algorithm's performance: profiling and asymptotic analysis. Profiling involves running code with various inputs to measure time and memory usage, while asymptotic analysis uses mathematical expressions to describe how an algorithm's runtime and space complexity scale with its input size.
 
-Profiling is best suited for evaluating performance after the implementation is complete, and it helps identify bottlenecks.
+Profiling is most useful for identifying bottlenecks after the implementation phase of the software development process. On the other hand, asymptotic analysis is most valuable during the design phase because it doesn’t depend on specific hardware or implementation details. Instead, it provides a general way to compare algorithms by focusing on their behavior as input size grows toward infinity.
 
-**Asymptotic analysis, on the other hand, is most useful during the design phase of the software development process** for two main reasons: first, **it does not depend on implementation details**; second, it **allows for easier generalization of results to any input size and facilitates comparisons of performance between two algorithms as the input size grows towards infinity**.
+Asymptotic analysis is based on the RAM (Random Access Machine) model, a simplified abstraction of a computer. This model assumes a single-processor machine with random access memory and basic operations, such as arithmetic operations, flow control, and memory access, all of which take constant time. The instructions are assumed to run sequentially, without parallelism.
 
-### Definition
+In asymptotic analysis, an algorithm's performance is described by counting the basic operations it performs as a function of input size, typically denoted by nn. The growth rate of this function, rather than its exact value, is key. To simplify the measurement, we focus on large inputs. As the input size grows toward infinity, lower-order terms contribute negligibly to the overall growth rate, so they are ignored, making the dominant term the most significant factor in the algorithm’s performance.
 
-It is a way of describing the runtime and space complexity of an algorithm (respectively, the time it takes to execute and the resources it consumes during its execution) in terms of the size of the input data. Its purpose is to provide a generalized understanding of how the algorithm's performance scales as the input size increases (growth rate), and to compare the efficiency of different algorithms regardless of implementation details or specific hardware.
+For example, in a function like T(n) = 3n^2 + 5n + 7, the term n^2 will dominate as n grows toward infinity, so the time complexity of this function is simplified as O(n^2).
 
-The big-O notation is a type of asymptotic analysis that describes an algorithm under a worst-case scenario, meaning when the algorithm takes the longest time or uses the most memory to complete its task, given a specific input size. 
+### The big-O notation
 
-\[...continue]
+is a type of asymptotic analysis that describes different classes of algorithms under a worst-case scenario, meaning when the algorithm takes the longest time or uses the most memory to complete its task, given a specific input size. 
