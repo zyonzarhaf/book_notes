@@ -135,14 +135,35 @@ There are two main ways to measure an algorithm's performance: profiling and asy
 
 Profiling is most useful for identifying bottlenecks after the implementation phase of the software development process. On the other hand, asymptotic analysis is most valuable during the design phase because it doesn’t depend on specific hardware or implementation details. Instead, it provides a general way to compare algorithms by focusing on their behavior as input size grows toward infinity.
 
-Asymptotic analysis is based on the RAM (Random Access Machine) model, a simplified abstraction of a computer. This model assumes a single-processor machine with random access memory and basic operations, such as arithmetic operations, flow control, and memory access, all of which take constant time (typically described as a function T(n) = c). The instructions are assumed to run sequentially, without parallelism.
+Asymptotic analysis is based on the RAM (Random Access Machine) model, a simplified abstraction of a computer. This model assumes a single-processor machine with random access memory and basic operations, such as arithmetic operations, flow control, and memory access, all of which take constant time (If we were to describe the time complexity of a single operation, it would be T(n) = c, where c is a constant). The instructions are assumed to run sequentially, without parallelism.
 
 In asymptotic analysis, an algorithm's performance is described by counting the basic operations it performs as a function of input size, typically denoted by n. The growth rate of this function, rather than its exact value, is key. To simplify the measurement, we focus on large inputs. As the input size grows toward infinity, lower-order terms contribute negligibly to the overall growth rate, so they are ignored, making the dominant term the most significant factor in the algorithm’s performance.
 
-However, this simplification is not as if we were factoring the function. By simplifying it down to the dominant term we end up with a completely different function. However, their overall behaviour is the same and this is what the asymptotic analysis looks for.
+However, this simplification is not as if we were factoring the function. By simplifying it down to the dominant term we end up with a completely different function because it's not an algebraic simplification, rather it is an asymptotic behavior simplification. Their overall behaviour is the same and this is what the asymptotic analysis aims for.
 
-For example, in a function such as T(n) = 3n^2 + 5n + 7, the term n^2 will dominate as n grows toward infinity, so the time complexity of this function is simplified as F(n) = n^2.
+For example, in a function such as T(n) = 3n^2 + 5n + 7, the term n^2 will dominate as n grows toward infinity, so the time complexity of this function is simplified as F(n) = n^2. This holds for every function, not just this one in particular, as long as n approaches infinity.
 
-### The big-O notation
+This form of simplification leads to different classes of functions that are well known in asymptotic analysis, and each class describe a particular behaviour (growth rate). The most common are:
 
-It describes a class of functions that share a common growth rate. a worst-case scenario, meaning when the algorithm takes the longest time or uses the most memory to complete its task, given a specific input size. 
+- Logarithmic: F(n) = log n. It describes a function that grows logarithmically as its input size increases.
+
+- Linear: F(n) = n, or simply F(n). It describes a function that grows linearly as its input size increases.
+
+- Linearithmic: F(n) = n log n. It describes a function that grows n times the logarithm of its input as the input increases.
+
+- Quadratic: F(n) = n^2. It describes a function that grows quadratically as its input size increases.
+
+- Cubic: F(n) = n^3. It describes a function that grows cubically as its input size increases.
+
+- Exponential: F(n) = 2^n. It describes a function that grows exponentially as its input increases, i.e., doubling with each increase in input size.
+
+- Factorial time: F(n) = n!. It describes a function that grows factorially as its input increases.
+
+### The Big-O Notation
+
+The Big-O notation describes a class of functions that share a common growth rate: they grow no faster than the function class to which they are bound, identified through the simplification process previously mentioned. This is often referred to as "worst case scenario", meaning in the worst case possible, the function will grow at most the same amount of times described by its bound function.
+
+For example, for T(n) = 3n + 100 + c, knowing that the bound function (the function that describes the overall behavior of the algorithm) is F(n) = n, T(n) will grow no faster than a constant multiple F(n) when its input is sufficiently large. This is formally described by the formula:
+
+T(n) <= c * F(n) for all n >= n0.
+
