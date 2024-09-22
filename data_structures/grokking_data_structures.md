@@ -167,3 +167,30 @@ For example, for T(n) = 3n + 100 + c, knowing that the bound function (the funct
 
 T(n) <= c * F(n) for all n >= n0.
 
+[TODO: Big-Theta, Big-Omega]
+
+## Dynamic Arrays
+
+ Dynamic arrays are essentially static arrays implemented in a way that makes them appear as if they are a single array that grows and shrinks to accommodate more or fewer elements. The least expensive approach to achieve this is to double the array size every time an element is about to be added, provided the array has already reached its full capacity. Additionally, the array can be shrunk by half whenever only a quarter of its capacity is in use.
+
+```python
+from arrays.core import Array
+
+class DynamicArray():
+    def __init__(self, initial_capacity = 1, typecode = '1'):
+        self._array = Array(initial_capacity, typecode)
+        self._capacity = initial_capacity
+        self._size = 0
+        self._typecode = typecode
+```
+
+For now, this is very similar to the sorted array implementation. The only difference is that instead of just passing the typecode to the class constructor and using it, we also need to store it, as we'll use this to create new static arrays for resizing:
+
+```python
+def _double_size(self):
+    old_array = self._array
+    self._array = Array(self._capacity * 2, self._typecode) # Create an array twice as large and pass the same typecode from before
+    self._capacity *= 2
+    for i in range(self._size):
+        self._array[i] = old_array[i] # Copies all elements from the old array to the new one
+```
