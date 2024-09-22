@@ -189,8 +189,32 @@ For now, this is very similar to the sorted array implementation. The only diffe
 ```python
 def _double_size(self):
     old_array = self._array
-    self._array = Array(self._capacity * 2, self._typecode) # Create an array twice as large and pass the same typecode from before
+    self._array = Array(self._capacity * 2, self._typecode)
     self._capacity *= 2
     for i in range(self._size):
-        self._array[i] = old_array[i] # Copies all elements from the old array to the new one
+        self._array[i] = old_array[i] 
+```
+
+Now, whenever the array reaches its full capacity and an element is about to be added, we double the capacity:
+
+```python
+def insert(self, value):
+    if self._size >= self._capacity:
+        self._double_size()
+    self._array[self._size] = value
+    self._size += 1
+```
+
+And whenever the array finds itself with only a quarter of its capacicity being used, we shrink it:
+
+```python
+def delete(self, target):
+    index = self.find(target)
+    if index is None:
+        raise(ValueError(f'Unable to delete element {target}: the entry is not in the array'))
+    for i in range(index, self._size - 1):
+        self._array[i] = self._array[i + 1]
+    self._size -= 1
+    if self._capacity > 1 and self._size <= self._capacity / 4:
+        self._halve_size()
 ```
