@@ -218,3 +218,53 @@ def delete(self, target):
     if self._capacity > 1 and self._size <= self._capacity / 4:
         self._halve_size()
 ```
+
+### Trees and Binary Trees
+
+A tree is a composite data structure used to represent hierarchical relationships. It consists of nodes connected by links. Each node contains a value and a variable number of links to other nodes, ranging from zero to some number k (this is a crucial difference between a tree and a linked list: in a linked list, each node has only a single predecessor and a single successor). This is called branching. The height of the tree also varies, being the longest path from the root to a leaf.
+
+OBS: Em português essa porra significa: uma árvore pode ser de nível x e ter grau y. O nível é determinado através da contagem do nó raiz até o último nó, fazendo o percurso mais longo e desconsiderando nós irmãos. Já o grau é determinado pela contagem do número máximo de nós filhos encontrado em qualquer parte da árvore, sem contar o nó raiz.
+
+There's also a special node called the root node, which starts the whole tree, and no other node in the tree points to it. Each predecessor of a node is called an ancestor node, and each successor of a node is called a child node. Direct descendants of the same node are called siblings. A node that has no children is called a leaf.
+
+Binary trees are trees in which the number of children each node is allowed to have is restricted to a maximum of two. This type of configuration allows us to label a node's children as "left and right nodes", or "left and right subtrees".
+
+Binary Search Trees (BST) are binary trees used for searching, potentially as fast as binary search on sorted arrays, with the advantage of being even faster for insertion and deletion operations. However, they require more memory and the code is more complex.
+
+BSTs abide by the BST property: for any node N that stores a value V, all nodes in the left subtree of N will have values less than or qual to V, and all nodes to the right subtree of N will have values greater than V.
+
+Example of a binary tree with creation and insertion operations:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int value;
+    struct Node* left;
+    struct Node* right;
+} Node;
+
+Node* createNode(int value) {
+    No* newNode = (No*)malloc(sizeof(No));
+    newNode->value = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+Node* insert(Node* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+
+    if (value < root->value) {
+        root->left = insert(root->left, value);
+    }
+    else {
+        root->right = insert(root->right, value);
+    }
+
+    return root;
+}
+```
