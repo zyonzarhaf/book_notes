@@ -456,3 +456,45 @@ function shoesAndSocksInventory(products) {
     return reduce(inventories, 0, plus);
 
 ```
+
+Other common functional tools:
+
+```javascript
+
+function pluck(array, field) {
+    return map(array, function(object) {
+        return object[field];
+    });
+}
+
+function concat(arrays) {
+    const ret = [];
+    forEach(arrays, function(array) {
+        forEach(array, function(element) {
+            ret.push(element);
+        });
+    });
+    return ret;
+}
+
+function frequenciesBy(array, f) {
+    const ret = {};
+    forEach(array, function(element) {
+        const key = f(element);
+        if (ret[key]) ret[key] += 1;
+        else ret[key] = 1;
+    });
+    return ret;
+}
+
+function groupBy(array, f) {
+    const ret = {};
+    forEach(array, function(element) {
+        const key = f(element);
+        if (ret[key]) ret[key].push(element);
+        else ret[key] = [element];
+    });
+    return ret;
+}
+
+```
