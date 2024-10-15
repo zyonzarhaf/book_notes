@@ -291,7 +291,7 @@ function filter(array, f) {
 function reduce(array, init, f) {
     let accum = init;
     forEach(array, function(element) {
-      accum = f(accum, element);  
+      accum = f(accum, element);
     });
     return accum;
 }
@@ -419,3 +419,40 @@ function biggestPurchasesBestCustomers(customers) {
 }
 ```
 In this example, instead of filtering the customers to create an intermediate array and then mapping over that array, filter and map are executed in a single pass.
+
+Functional chaining can also be used to refactor existing for loops. The first step is to understand what the loop is trying to achieve. Then, simply forget about the current implementation and make your own, using functional tools. If the code is too complex, refactor from clues:
+
+1. Look for the data types being used within the loop. Try to identify composite types, such as an array, or an object.
+
+1. Instead of using primitives to loop over data, operate on whole data structures at once.
+
+1. Break it in as many small steps as required.
+
+Example of a for loop turned into functional code:
+
+```javascript
+// Original code
+function shoesAndSocksInventory(products) {
+    let inventory = 0;
+    for(let p = 0; p < products.length; p++) {
+        const product = products[p];
+        if (product.type === 'shoes' || product.type === 'socks') {
+            inventory += product.numberInInventory;
+        }
+    }
+    return inventory;
+}
+
+// Refactor with functional tools
+function shoesAndSocksInventory(products) {
+    const shoesAndSocks = filter(products, function(product) {
+        return product.type === 'shoes' || product.type === 'socks';
+    });
+
+    const inventories = map(shoesAndSocks, function(product) {
+        return product.numberInInventory;
+    });
+
+    return reduce(inventories, 0, plus);
+
+```
