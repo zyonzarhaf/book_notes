@@ -128,7 +128,7 @@ function setQuantityByName() {
     return newCart;
 }
 
-function setQuantityByName() {
+function setPriceByName() {
     const item = cart[name];
     const newItem = objectSet(item, 'price',  price);
     const newCart = objectSet(cart, name, newItem);
@@ -498,3 +498,75 @@ function groupBy(array, f) {
 }
 
 ```
+
+## Reduce for building values
+
+Reduce can do much more than simply summarize data. It can be used to build data. As an example, imagine a shopping cart consisting of a simple unidimensional array containgin all items the user has added, including repeated items.
+
+Now let's say we would like to build a complete shopping cart, containing both the amount and the price of each item that was added. If we take a moment to think about the essence of the reduce() function, we will realize the following:
+
+Since reduce iterates over an array and combine its elements into a single value, we could iterate over the existing shopping cart and combine its elements into another, more complex object:
+
+```javascript
+
+const shoppingCart = reduce(itemsAdded, {}, function(cart, item) {
+    if (!cart[item])
+        return add_item(cart, { name: item, quantity: 1, price: priceLookup(item) });
+    else
+        const quantity = cart[item].quantity;
+        return setFieldByName(cart, item, 'quantity', quantity + 1);
+});
+
+```
+
+Extracting and naming the callback:
+
+```javascript 
+
+function addOne(cart, item) {
+    if (!cart[item]) {
+        return add_item(cart, { name: item, quantity: 1, price: priceLookup(item) });
+    }
+    else {
+        const quantity = cart[item].quantity;
+        return setFieldByName(cart, item, 'quantity', quantity + 1);
+    }
+}
+
+const shoppingCart = reduce(itemsAdded, {}, addOne);
+
+```
+
+To allow the user to remove items as well, we have to change the initial data structure a little bit, making it into a matrix:
+
+```javascript
+
+const itemOps = [['add', 'shirt'], ['add', 'shoes'], ['remove', 'shirt'], ['add', 'socks'], ['remove', 'hat']];
+
+function removeOne(cart, item) {
+    if(!cart[item]) {
+        return cart;
+    }
+    else {
+        const quantity = cart[item].quantity;
+        if (quantity === 1) {
+            return removeItemByName(cart, item);
+        }
+        else {
+            return setFieldByName(cart, item, 'quantity', quantity - 1);
+        }
+    }
+}
+
+const shoppingCart = reduce(itemOps, {}, function(cart, itemOp) {
+    const op = itemOp[0];
+    const item = itemOp[1];
+    if (op === 'add') return addOne(cart, item);
+    if (op === 'remove') return removeOne(cart, item);
+});
+
+```
+
+To sum everything up, the reduce function not only allows us to (literally) reduce a given data set, but also helps building more complex data structures. Additionally, in the last code example, we used a common functional programming technique that consists in representing operations as data: an array with the name of the operation and its "argument" (the cart item).
+
+[TODO: book exercises on reduce]
