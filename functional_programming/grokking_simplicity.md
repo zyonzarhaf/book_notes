@@ -102,33 +102,26 @@ There are two significant scenarios in which first-class values prove to be part
 
 In both cases, the code can benefit from first-class values.
 
-- In the first scenario, instead of leaving the value implicitly defined in the function name, it can be turned into a first-class value, allowing it to be used as an explicit input/argument:
+- In the first scenario, instead of leaving the value implicitly defined in the function name, it can be turned into a first-class value, allowing it to be used as an explicit input/argument. This is a common refactor called **express implicit argument**:
 
 ```javascript
 // Original function that implicitly uses 'price' in the function body
-function setPriceByName() {
-    const item = cart[name];
-    const newItem = objectSet(item, 'price',  price);
-    const newCart = objectSet(cart, name, newItem);
-    return newCart;
-}
-
 // Similar functions for setting different fields
-function setSizeByName() {
+function setSizeByName(name, size) {
     const item = cart[name];
-    const newItem = objectSet(item, 'size',  price);
+    const newItem = objectSet(item, 'size',  size);
     const newCart = objectSet(cart, name, newItem);
     return newCart;
 }
 
-function setQuantityByName() {
+function setQuantityByName(name, quantity) {
     const item = cart[name];
-    const newItem = objectSet(item, 'quantity',  price);
+    const newItem = objectSet(item, 'quantity',  quantity);
     const newCart = objectSet(cart, name, newItem);
     return newCart;
 }
 
-function setPriceByName() {
+function setPriceByName(name, price) {
     const item = cart[name];
     const newItem = objectSet(item, 'price',  price);
     const newCart = objectSet(cart, name, newItem);
@@ -569,4 +562,4 @@ const shoppingCart = reduce(itemOps, {}, function(cart, itemOp) {
 
 To sum everything up, the reduce function not only allows us to (literally) reduce a given data set, but also helps building more complex data structures. Additionally, in the last code example, we used a common functional programming technique that consists in representing operations as data: an array with the name of the operation and its "argument" (the cart item).
 
-[TODO: book exercises on reduce]
+
