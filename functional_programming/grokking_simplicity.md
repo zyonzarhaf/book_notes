@@ -562,4 +562,62 @@ const shoppingCart = reduce(itemOps, {}, function(cart, itemOp) {
 
 To sum everything up, the reduce function not only allows us to (literally) reduce a given data set, but also helps building more complex data structures. Additionally, in the last code example, we used a common functional programming technique that consists in representing operations as data: an array with the name of the operation and its "argument" (the cart item).
 
+## Functional Tools for Nested Data
 
+This chapter is all about working with objects and nested objects. It starts by teaching simple operations on 0-depth objects, while also sticking to the functional principles already mentioned in the book, such as the copy on write discipline, the implicit argument in function name code smell, higher order functions, and the replace body with callback refactoring (essentially, replacing the part that changes with a callback):
+
+```javascript
+
+let shirt = {
+    "model": "camiseta muito foda",
+    "price": 59
+    "size": "small",
+    "color": "blue"
+}
+
+function update(object, key, modify) {
+    const value = object[field];
+    const newValue = modify(value);
+    const newObject = objectSet(object, key, newValue);
+    return newObject;
+}
+
+shirt = update(shirt, 'color', value => value + 10);
+
+```
+
+And this is a good intro to what comes next: dealing with nested objects. Nested objects can be processed by using the same principles as before, but with an extra step: for each level of nesting there must be a nested function call:
+
+```javascript
+
+let shirt = {
+    "model": "camiseta muito foda",
+    "price": 59,
+    "options": {
+        "size": "small",
+        "color": "blue"
+    }
+
+shirt = update(shirt, "options", function(option) {
+    update(option, "size", size => "medium");
+});
+
+// Alternatively
+
+function update2(object, key1, key2, modify) {
+    returns update(object, key1, function(value1) {
+        return update(value1, key2, modify);
+    });
+}
+
+shirt = update2(shirt, "options", "size", function(size) {
+   return "medium";
+});
+
+```
+
+And this can keep going on until updateX, in which instead of passing individual keyswe pass an array of keys (the sequence of keys for locating a value in nested objects is called a **path**, and the path has one key for each level of nesting):
+
+```javascript
+
+```
