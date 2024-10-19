@@ -591,33 +591,92 @@ And this is a good intro to what comes next: dealing with nested objects. Nested
 ```javascript
 
 let shirt = {
-    "model": "camiseta muito foda",
-    "price": 59,
-    "options": {
-        "size": "small",
-        "color": "blue"
+    model: "camiseta muito foda",
+    price: 59,
+    options: {
+        size: "small",
+        color: "blue",
+        stamps: {
+            desenho: "miranha",
+        },
     }
+}
 
-shirt = update(shirt, "options", function(option) {
-    update(option, "size", size => "medium");
-});
-
-// Alternatively
-
+// We could either derive update2, update3, and update4
 function update2(object, key1, key2, modify) {
-    returns update(object, key1, function(value1) {
-        return update(value1, key2, modify);
+    return update(object, key1, function(object2) {
+        return update(object2, key2, modify);
     });
 }
 
-shirt = update2(shirt, "options", "size", function(size) {
-   return "medium";
+function update3(object, key1, key2, key3, modify) {
+    return update(object, key1, function(object2) {
+        return update2(object2, key2, key3, modify);
+    });
+}
+
+function update4(object, key1, key2, key3, key4, modify) {
+    return update(object, key1, function(object2) {
+        return update3(object2, key2, key3, key4, modify);
+    });
+}
+
+// Path: options/size
+shirt = update2(
+    shirt,
+    "options",
+    "size",
+    function(size) {
+        return "medium";
+    }
+);
+
+// Path: options/stamps/desenho
+shirt = update3(
+    shirt,
+    "options",
+    "stamp",
+    "desenho",
+    function("desenho") {
+        return "ben10";
+    }
+);
+
+// OR simply nest a bunch of 0-depth update functions
+shirt = update(shirt, "options", function(option) {
+    return update(option, "size", function(size) {
+        return "medium";
+    });
+});
+
+shirt = update(shirt, "options", function(option) {
+    return update(option, "stamps", function(stamp) {
+        return update(stamp, "desenho", function(desenho) {
+            return "ben10";
+        });
+    });
 });
 
 ```
 
-And this can keep going on until updateX, in which instead of passing individual keyswe pass an array of keys (the sequence of keys for locating a value in nested objects is called a **path**, and the path has one key for each level of nesting):
+And this keeps going on until updateX. However, there is a pattern: for each updateX function, there is an updateX-1 nested inside an update function. **This is where recursion comes in** (a recursive function is a function that has a recursive call where the function calls itself).
+
+By eliminating the implicit argument in function name code smell, we can derive an updateX function, in which instead of passing individual keys we pass an array of keys that represents a path (the sequence of keys for locating a value in nested objects is called a **path**), and the number of nesting levels we'd like to work on would its length. However, since this time we are deriving a recursive function, we also have to establish a basecase: a case with no recursive call that stops the recursion (otherwise the function would just call itself forever).
+
+The result would be something like:
 
 ```javascript
+
+function nestedUpdate(object, keys, modify) {
+    // Base case: 0-depth
+    if (key.length === 0) {
+        return modify(object);
+    }
+    const key1 = keys[0];
+    const restOfKeys = dropFirst(keys); // Make progress toward base case by dropping one path element
+    return update(object, key1, function(object2) {
+        return updateX(object2, restOfKeys, modify);
+    });
+}
 
 ```
