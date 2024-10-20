@@ -680,3 +680,17 @@ function nestedUpdate(object, keys, modify) {
 }
 
 ```
+
+## The Anatomy of Safe Recursion
+
+To guarantee an infinite loop free recursion, we must follow a few best practices. We must make sure to implement:
+
+1. A base case: the base case is a condition in which the recursion stops, because it doesn't include any recursive call. Common base cases include: the function argument is an empty array, or an empty object; a countday goes to zero; you simply found what you were looking for.
+
+1. A recursive case: the recursive case is a condition in which the recursive call happens.
+
+1. A form of progress toward the base case: each recursive call needs to take the code closer to the final purpose to which the function was actually designed to achieve.This means that at least one of its arguments must get smaller and smaller with each recursive call.
+
+## Design Considerations with Deep Nesting
+
+When working with deeply nested data structures, remembering long path lists can be very difficult. One way to address this is by using stratified design and abstraction barriers, limiting the data structures we have to understand in order to do the same work.
