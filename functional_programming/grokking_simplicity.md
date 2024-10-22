@@ -739,3 +739,5 @@ function updatePostById(category, id, modifyPost) {
 }
 
 ```
+
+Taking from the example above, the client code doesn't need to know beforehand how posts are stored in a 'category' object. All it needs to know is that there is a post object and there is an id in it. 
