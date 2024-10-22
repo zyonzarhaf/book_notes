@@ -494,11 +494,9 @@ function groupBy(array, f) {
 
 ## Reduce for building values
 
-Reduce can do much more than simply summarize data. It can be used to build data. As an example, imagine a shopping cart consisting of a simple unidimensional array containgin all items the user has added, including repeated items.
+Reduce can do much more than simply summarize data; it can also be used to build data structures. For example, consider a shopping cart represented by a simple one-dimensional array containing all the items a user has added, including duplicates.
 
-Now let's say we would like to build a complete shopping cart, containing both the amount and the price of each item that was added. If we take a moment to think about the essence of the reduce() function, we will realize the following:
-
-Since reduce iterates over an array and combine its elements into a single value, we could iterate over the existing shopping cart and combine its elements into another, more complex object:
+If we want to create a complete shopping cart that includes both the quantity and the price of each item, we should reflect on the essence of the reduce() function. Since reduce iterates over an array and combines its elements into a single value, we can use it to transform our existing shopping cart into a more complex object:
 
 ```javascript
 
@@ -530,7 +528,7 @@ const shoppingCart = reduce(itemsAdded, {}, addOne);
 
 ```
 
-To allow the user to remove items as well, we have to change the initial data structure a little bit, making it into a matrix:
+To allow users to remove items as well, we need to modify the initial data structure slightly, transforming it into a matrix:
 
 ```javascript
 
@@ -560,11 +558,11 @@ const shoppingCart = reduce(itemOps, {}, function(cart, itemOp) {
 
 ```
 
-To sum everything up, the reduce function not only allows us to (literally) reduce a given data set, but also helps building more complex data structures. Additionally, in the last code example, we used a common functional programming technique that consists in representing operations as data: an array with the name of the operation and its "argument" (the cart item).
+In summary, the reduce function not only allows us to literally reduce a given dataset but also helps in constructing more complex data structures. The last code example demonstrates a common functional programming technique where operations are represented as data—an array containing the operation name and its corresponding argument (the cart item).
 
 ## Functional Tools for Nested Data
 
-This chapter is all about working with objects and nested objects. It starts by teaching simple operations on 0-depth objects, while also sticking to the functional principles already mentioned in the book, such as the copy on write discipline, the implicit argument in function name code smell, higher order functions, and the replace body with callback refactoring (essentially, replacing the part that changes with a callback):
+This section focuses on working with objects and nested objects. It begins with simple operations on zero-depth objects while adhering to functional principles such as copy-on-write discipline and higher-order functions.
 
 ```javascript
 
@@ -659,11 +657,7 @@ shirt = update(shirt, "options", function(option) {
 
 ```
 
-And this keeps going on until updateX. However, there is a pattern: for each updateX function, there is an updateX-1 nested inside an update function. **This is where recursion comes in** (a recursive function is a function that has a recursive call where the function calls itself).
-
-By eliminating the implicit argument in function name code smell, we can derive an updateX function, in which instead of passing individual keys we pass an array of keys that represents a path (the sequence of keys for locating a value in nested objects is called a **path**), and the number of nesting levels we'd like to work on would its length. However, since this time we are deriving a recursive function, we also have to establish a basecase: a case with no recursive call that stops the recursion (otherwise the function would just call itself forever).
-
-The result would be something like:
+This process continues until we derive an updateX function. A pattern emerges where each updateX function contains an updateX-1 nested within an update function. This is where recursion comes into play. A recursive function is one that calls itself. To eliminate implicit arguments in function names and derive a recursive updateX function that accepts an array of keys representing a path (the sequence of keys for locating a value in nested objects), we must also establish a base case—a condition that stops the recursion. The final result looks like this:
 
 ```javascript
 
@@ -675,22 +669,73 @@ function nestedUpdate(object, keys, modify) {
     const key1 = keys[0];
     const restOfKeys = dropFirst(keys); // Make progress toward base case by dropping one path element
     return update(object, key1, function(object2) {
-        return updateX(object2, restOfKeys, modify);
+        return nestedUpdate(object2, restOfKeys, modify);
     });
 }
 
 ```
 
+And here is a fully working example:
+
+```javascript
+
+const foo = {
+  names: {
+    peopleNames: {
+      a: "hans",
+      b: "michael",
+      c: "jorge"
+    }
+  }
+}
+
+function dropFirst(keys) {
+  const keysCopy = [...keys];
+  keysCopy.shift();
+  return keysCopy;
+}
+
+function update(object, key, modify) {
+  const value = object[key];
+  const newValue = modify(value);
+  const newObject = {...object, [key]: newValue};
+  return newObject;
+}
+
+function nestedUpdate(object, keys, modify) {
+    // Base case: 0-depth
+    if (keys.length === 0) {
+        return modify(object);
+    }
+    const key1 = keys[0];
+    const restOfKeys = dropFirst(keys); // Make progress toward base case by dropping one path element
+    return update(object, key1, function(object2) {
+        return nestedUpdate(object2, restOfKeys, modify);
+    });
+}
+
+console.log(nestedUpdate(foo, ['names', 'peopleNames', 'b'], function(name) {
+  return "Hannah";
+}));
+
+```
+
 ## The Anatomy of Safe Recursion
 
-To guarantee an infinite loop free recursion, we must follow a few best practices. We must make sure to implement:
+To ensure recursion does not lead to infinite loops or errors:
 
-1. A base case: the base case is a condition in which the recursion stops, because it doesn't include any recursive call. Common base cases include: the function argument is an empty array, or an empty object; a countday goes to zero; you simply found what you were looking for.
+1. Base Case: This condition stops recursion because it does not include any recursive call. Common base cases include empty arrays or objects.
 
-1. A recursive case: the recursive case is a condition in which the recursive call happens.
-
-1. A form of progress toward the base case: each recursive call needs to take the code closer to the final purpose to which the function was actually designed to achieve.This means that at least one of its arguments must get smaller and smaller with each recursive call.
+1. Recursive Case: This condition triggers the recursive call. Progress Toward Base Case: Each recursive call should move closer to the base case; at least one argument must decrease with each call.
 
 ## Design Considerations with Deep Nesting
 
-When working with deeply nested data structures, remembering long path lists can be very difficult. One way to address this is by using stratified design and abstraction barriers, limiting the data structures we have to understand in order to do the same work.
+When dealing with deeply nested data structures, remembering long path lists can be challenging. One solution is to use stratified design and abstraction barriers to limit the complexity of data structures we need to understand. We can delegate the task of identifying a given path to the function itself instead of tracking it manually. For example:
+
+```javascript
+
+function updatePostById(category, id, modifyPost) {
+   return nestedUpdate(category, ['posts', id], modifyPost);
+}
+
+```
