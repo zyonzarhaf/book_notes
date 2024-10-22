@@ -684,7 +684,7 @@ const foo = {
     peopleNames: {
       a: "hans",
       b: "michael",
-      c: "jorge"
+      c: "casimiro"
     }
   }
 }
