@@ -2,17 +2,17 @@
 
 ## What the book is about
 
-The book is a distillation of various techniques, thought processes, and design patterns commonly found in functional programming circles. The primary goal of the book, it seems, is to provide an alternative to existing literature on functional programming, which often tends to be either overly academic or lacking in essential foundational concepts. Consequently, it makes functional programming more accessible beyond academia and demonstrate its relevance to the software engineering industry.
+The book is a distillation of various techniques, thought processes, and design patterns commonly found in functional programming circles. The primary goal of the book is to provide an alternative to existing literature on functional programming, which often tends to be either overly academic or lacking in essential foundational concepts. Consequently, it makes functional programming more accessible beyond academia and demonstrate its relevance to the software engineering industry.
 
-Rather than providing a universal definition of functional programming or advocating for a strictly functional approach, the book acknowledges that for any action to take place in software some form of side effect must occur. However, it emphasizes the need for these side effects to be organized and controlled, allowing for a greater focus other key concepts such as computations and data.
+Rather than providing a universal definition of functional programming or advocating for a strictly functional approach, the book acknowledges that, for any action to take place in software, some form of side effect must occur. However, it emphasizes the need for these side effects to be organized and controlled, allowing for a greater focus on other key concepts such as computations and data.
 
 ## Distinguishing between actions, calculations and data
 
-When looking at any code through the lens of functional programming, it is crucial to classify it into one of three categories:
+When looking at any code through the lens of functional programming, it is crucial to classify it into one of these three categories:
 
-- Actions: Constructs that affect the external state of the application. Their behaviour depends on when and how many times they are executed, making them challenging to test and analyze. In functional programming, these are referred to as impure functions. 
+- Actions: Constructs that change the state of the application. Their behaviour depends on when and how many times they are executed, making them challenging to test and analyze. In functional programming, functions that perform actions are referred to as impure functions. However, actions can come in many forms: class constructors, variable access expressions, property access expressions, array access expressions, variable assignment, property deletion, and many others.
 
-- Calculations: Constructs that do not alter external state and always produce the s ame output for the same input. They are responsible for processing application data and are easier to test and analyze. In functional programming, these are known as pure functions. 
+- Calculations: Constructs that do not alter the state and always produce the same output for the same input. They are responsible for processing application data and are easier to test and analyze. In functional programming, these are known as pure functions. 
 
 - Data: Recorded facts about events that hold meaning without execution and can be interpreted in various ways.
 
@@ -20,11 +20,11 @@ An important aspect of actions is that they spread easily through code. If an ac
 
 Steps to convert an action to a computation:
 
-1. Select and extract the code
+1. Select and extract the code.
 
-1. Identify implicit inputs and outputs
+1. Identify implicit inputs and outputs.
 
-1. Make both inputs and outputs explicit by converting them into arguments and return values, respectively
+1. Make both inputs and outputs explicit by converting them into arguments and return values, respectively.
 
 This means smaller structures, with single responsibilities, are going to be pulled apart from larger structures with the intention of making code easier to reuse, easier to maintain and easier to test.
 
@@ -39,11 +39,13 @@ Shallow copies are an essential aspect of the copy on write discipline. A shallo
 This technique makes the code memory efficient by avoiding the overhead of copying entire data structures each time they are taken as input. However, to ensure both performance and safety, it is crucial that each computation creates its own copy of the nested level, adhering to the copy-on-write discipline. Code example:
 
 ```javascript
+
 function addElementLast(array, element) {
-    const arrayCopy = [...array]; // Make a copy
-    arrayCopy.push(item); // Modify the copy
-    return arrayCopy; // Return the coy
+    const arrayCopy = [...array];
+    arrayCopy.push(element); 
+    return arrayCopy; 
 }
+
 ```
 
 ## Defensive copy discipline
@@ -55,7 +57,8 @@ The goal is to avoid two key risks: first, untrusted code modifying the applicat
 The solution to achieve this goal is to create deep copies -- duplicate all levels of nested data structures, from the top down -- of the data both when it enters the trusted code and when it exits. Code example:
 
 ``` javascript
-function addItemToCart(name, price) {
+
+function addItemToCart(shoppingCart, name, price) {
     const item = makeCartItem(name, price);
     const shoppingCart = addItem(shoppingCart, item);
     const total = calcTotal(shoppingCart);
@@ -75,6 +78,7 @@ function addItemToCart(name, price) {
 
     // Create a deep copy as data enters
     const shoppingCartCopy = deepCopy(cartCopy);
+    // [...]
 }
 
 ```
@@ -86,7 +90,7 @@ It is a design practice in which the software application is organized into laye
 
 - Abstraction barrier: Some layers provide an interface that hides important implementation details, enabling developers to write code at a higher level without thinking on the layers beneath. Typically, code above the barrier can ignore implementation specifics, such as which data structure is used, while code below the barrier can disregard higher-level details, like what the functions are being used for.
 
-- Minimal interface: New features should ideally be developed at higher levels rather than lower levels, by using existing functions in the leves beneath. This approach helps avoid bloat and unnecessary modifications to code that should rarely change. The term "minimal" emphasizes the importance of leaving well-established levels of abstraction untouched.
+- Minimal interface: New features should ideally be developed at higher levels rather than lower levels, by using existing functions in the levels beneath. This approach helps avoid bloat and unnecessary modifications to code that should rarely change. The term "minimal" emphasizes the importance of leaving well-established levels of abstraction untouched.
 
 - Comfortable layers: The process of building layers of abstraction must serve a purpose: to make the code more reusable, testable and maintainable, allowing for faster delivery and higher quality software. If the tower of abstraction gets too tall at the expense of readability -- or other critical aspects -- and start to feel inconvenient, it is time to reassess and simplify. 
 
@@ -252,6 +256,7 @@ In general terms, the three functions work like this: the higher-order function 
 - Map: A function that transforms one array into another array of the same length:
 
 ```javascript
+
 function map(array, f) {
     const newArray = [];
     forEach(array, function(element) {
@@ -262,11 +267,13 @@ function map(array, f) {
     });
     return newArray;
 }
+
 ```
 
-- Filter: A function that that creates a new array based on an existing array, but only containing elements that matches a specified condition. In other words, it creates a subset of the elements of an array:
+- Filter: A function that creates a new array based on an existing array, but only containing elements that matches a specified condition. In other words, it creates a subset of the elements of an array:
 
 ```javascript
+
 function filter(array, f) {
     const newArray = [];
     forEach(array, function(element) {
@@ -276,11 +283,13 @@ function filter(array, f) {
     });
     return newArray;
 }
+
 ```
 
 - Reduce: A function that accumulates a value as it iterates over the array. The logic behind the accumulation and the returned value is decided by another function that is taken as argument, to which the current value of the accumulator and the current element of the iteration must be passed, and which returns a value of the same type as its first argument:
 
 ```javascript 
+
 function reduce(array, init, f) {
     let accum = init;
     forEach(array, function(element) {
@@ -288,6 +297,7 @@ function reduce(array, init, f) {
     });
     return accum;
 }
+
 ```
 
 ## Chaining functional tools
@@ -297,6 +307,7 @@ While functional tools in isolation are usually enough to handle simple computat
 Example: consider the task of processing an array of customers to return the largest purchase for each customer who has made three or more purchases:
 
 ```javascript
+
 function biggestPurchasesBestCustomers(customers) {
     // Filter for only good customers
     const bestCustomers = filter(customers, function(customer) {
@@ -316,10 +327,12 @@ function biggestPurchasesBestCustomers(customers) {
     });
     return biggestPurchases;
 }
+
 ```
 Although the code successfully achieves its goal, there is a lot of room for improvement. For starter, the function can be more straightforward (solve the problem in the right level of detail and generality) by letting another function decide what value to compare. This gets rid of the dot notation, which is a language built-in feature from a lower level of abstraction. Improved version with 'maxKey':
 
 ```javascript
+
 // Wrap the reduce function to find the largest value from an array,
 // using a callback to decide what value to compare
 function maxKey(array, init, f) {
@@ -344,6 +357,7 @@ function biggestPurchasesBestCustomers(customers) {
         });
     } 
     return biggestPurchases;
+
 ```
 
 The code could be made even more clear by getting rid of the nested callbacks and return statements. This can be achieved by either naming the steps or naming the callbacks:
@@ -351,6 +365,7 @@ The code could be made even more clear by getting rid of the nested callbacks an
 Naming the steps:
 
 ```javascript
+
 function selectBestCustomers(customers) {
     filter(customers, function(customer) {
         return customer.purchases.length >= 3;
@@ -374,11 +389,14 @@ function biggestPurchasesBestCustomers(customers) {
     const bestCustomers = selectBestCustomers(customers);
     const biggestPurchases = selectBiggestPurchases(bestCustomers);
     return biggestPurchases;
+}
+
 ```
 
 Naming the callbacks:
 
 ```javascript
+
 function isGoodCustomer(customer) {
     return customer.purchases.length >= 3;
 }
@@ -396,21 +414,19 @@ function biggestPurchasesBestCustomers(customers) {
     const biggestPurchases = map(bestCustomers, selectBiggestPurchase); 
     return biggestPurchases;
 }
+
 ```
 
-In general, naming the callbacks results in clearer, more reusable code, because the callbacks are more reusable than the calls to the higher-order functions.
-
-However, there is still another issue to consider, which is the potential inefficiency of creating multiple intermediate arrays during chaining operations.
-
-To address this problem, there is a technique called stream fusion that minimizes the overhead associated with creating intermediate data structures and enhances performance.
-
-Stream fusion is the combination of multiple calculations into a single step, reducing memory usage and enhancing performance. Example of stream  fusion:
+In general, naming the callbacks results in clearer, more reusable code, because the callbacks are more reusable than the calls to the higher-order functions. However, there is still another issue to consider, which is the potential inefficiency of creating multiple intermediate arrays during chaining operations. To address this problem, there is a technique called stream fusion that minimizes the overhead associated with creating intermediate data structures and enhances performance. **Stream fusion is the combination of multiple calculations into a single step**, reducing memory usage and enhancing performance. Example of stream fusion:
 
 ```javascript
+
 function biggestPurchasesBestCustomers(customers) {
     return map(filter(customers, isGoodCustomer), selectBiggestPurchase);
 }
+
 ```
+
 In this example, instead of filtering the customers to create an intermediate array and then mapping over that array, filter and map are executed in a single pass.
 
 Functional chaining can also be used to refactor existing for loops. The first step is to understand what the loop is trying to achieve. Then, simply forget about the current implementation and make your own, using functional tools. If the code is too complex, refactor from clues:
@@ -424,6 +440,7 @@ Functional chaining can also be used to refactor existing for loops. The first s
 Example of a for loop turned into functional code:
 
 ```javascript
+
 // Original code
 function shoesAndSocksInventory(products) {
     let inventory = 0;
@@ -447,6 +464,7 @@ function shoesAndSocksInventory(products) {
     });
 
     return reduce(inventories, 0, plus);
+}
 
 ```
 
@@ -471,7 +489,7 @@ function concat(arrays) {
 }
 
 function frequenciesBy(array, f) {
-    const ret = {};
+    const ret = [];
     forEach(array, function(element) {
         const key = f(element);
         if (ret[key]) ret[key] += 1;
@@ -481,7 +499,7 @@ function frequenciesBy(array, f) {
 }
 
 function groupBy(array, f) {
-    const ret = {};
+    const ret = [];
     forEach(array, function(element) {
         const key = f(element);
         if (ret[key]) ret[key].push(element);
@@ -500,13 +518,20 @@ If we want to create a complete shopping cart that includes both the quantity an
 
 ```javascript
 
-const shoppingCart = reduce(itemsAdded, {}, function(cart, item) {
-    if (!cart[item])
-        return add_item(cart, { name: item, quantity: 1, price: priceLookup(item) });
-    else
-        const quantity = cart[item].quantity;
-        return setFieldByName(cart, item, 'quantity', quantity + 1);
-});
+const shoppingCart = reduce(itemsAdded,
+                            {},
+                            function(cart, item) {
+                                if (!cart[item]) {
+                                    return add_item(cart, {
+                                        name: item,
+                                        quantity: 1,
+                                        price: priceLookup(item) 
+                                    });
+                                }
+                                const quantity = cart[item].quantity;
+                                return setFieldByName(cart, item, 'quantity', quantity + 1);
+                            }
+);
 
 ```
 
@@ -516,12 +541,14 @@ Extracting and naming the callback:
 
 function addOne(cart, item) {
     if (!cart[item]) {
-        return add_item(cart, { name: item, quantity: 1, price: priceLookup(item) });
+        return add_item(cart, {
+            name: item,
+            quantity: 1,
+            price: priceLookup(item) 
+        });
     }
-    else {
-        const quantity = cart[item].quantity;
-        return setFieldByName(cart, item, 'quantity', quantity + 1);
-    }
+    const quantity = cart[item].quantity;
+    return setFieldByName(cart, item, 'quantity', quantity + 1);
 }
 
 const shoppingCart = reduce(itemsAdded, {}, addOne);
@@ -558,7 +585,7 @@ const shoppingCart = reduce(itemOps, {}, function(cart, itemOp) {
 
 ```
 
-In summary, the reduce function not only allows us to literally reduce a given dataset but also helps in constructing more complex data structures. The last code example demonstrates a common functional programming technique where operations are represented as data—an array containing the operation name and its corresponding argument (the cart item).
+In summary, the reduce function not only allows us to literally reduce a given dataset but also helps in constructing more complex data structures. The last code example demonstrates a common functional programming technique where operations are represented in a data structure — an array containing the operation name and its corresponding argument (the cart item).
 
 ## Functional Tools for Nested Data
 
@@ -574,13 +601,13 @@ let shirt = {
 }
 
 function update(object, key, modify) {
-    const value = object[field];
+    const value = object[key];
     const newValue = modify(value);
     const newObject = objectSet(object, key, newValue);
     return newObject;
 }
 
-shirt = update(shirt, 'color', value => value + 10);
+shirt = update(shirt, 'color', value => "white");
 
 ```
 
@@ -657,7 +684,7 @@ shirt = update(shirt, "options", function(option) {
 
 ```
 
-This process continues until we derive an updateX function. A pattern emerges where each updateX function contains an updateX-1 nested within an update function. This is where recursion comes into play. A recursive function is one that calls itself. To eliminate implicit arguments in function names and derive a recursive updateX function that accepts an array of keys representing a path (the sequence of keys for locating a value in nested objects), we must also establish a base case—a condition that stops the recursion. The final result looks like this:
+This process continues until we derive an updateX function. A pattern emerges where each updateX function contains an updateX-1 nested within an update function. This is where recursion comes into play. A recursive function is one that calls itself. To eliminate implicit arguments in function names and derive a recursive updateX function that accepts an array of keys representing a path (the sequence of keys for locating a value in nested objects), we must also establish a base case -- a condition that stops the recursion. The final result looks like this:
 
 ```javascript
 
@@ -724,7 +751,7 @@ console.log(nestedUpdate(foo, ['names', 'peopleNames', 'b'], function(name) {
 
 To ensure recursion does not lead to infinite loops or errors:
 
-1. Base Case: This condition stops recursion because it does not include any recursive call. Common base cases include empty arrays or objects.
+1. Base Case: This condition stops recursion because it does not include any recursive call. Common base cases include empty arrays, empty objects, empty string, or 0.
 
 1. Recursive Case: This condition triggers the recursive call. Progress Toward Base Case: Each recursive call should move closer to the base case; at least one argument must decrease with each call.
 
@@ -740,4 +767,39 @@ function updatePostById(category, id, modifyPost) {
 
 ```
 
-Taking from the example above, the client code doesn't need to know beforehand how posts are stored in a 'category' object. All it needs to know is that there is a post object and there is an id in it. 
+Taking from the example above, the client code doesn't need to know beforehand how posts are stored in a 'category' object. All it needs to know is that there is a post object and there is an id field in it. 
+
+## Isolating Timelines
+
+Drawing timeline diagrams is a way of representing sequences of actions over time. It helps us understand how our software runs, and can be used to find bugs, especially when there are multiple timelines running at the same time in the system.
+
+The fundamentals of the timeline diagram are:
+
+1. If two actions occur in order, put them in the same timeline.
+
+1. If two actions can happen at the same time or out of order, they belong in separate timelines, placed side-by-side.
+
+However, to really understand how to put a timeline diagram together, it's really important to recap what was already discussed at the beginning of the book: the distinction between actions, calculations, and data, because only actions are described in the diagrams. And as previously mentioned, actions can come in many forms. This has an implication when it comes to building a timeline diagram, because we have to keep track of the specifics of a given language, to avoid skipping more subtle forms of actions.
+
+Example:
+
+```javascript 
+
+let total = 30;
+total++;
+
+```
+
+Although hidden by built-in features of the javascript language, this code contains not only one, but **three actions**: the first action comes in the form of a variable assignment; the other two are, respectively, a read and a write to the total variable.
+
+
+And the same statement can be made for this code:
+
+```javascript
+
+let total = 30;
+console.log(total);
+
+```
+
+Here, there is a total of three actions being performed as well: variable assignment;read to the total variable; logging the variable.
