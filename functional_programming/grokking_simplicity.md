@@ -12,7 +12,7 @@ When looking at any code through the lens of functional programming, it is cruci
 
 - Actions: Constructs that change the state of the application. Their behaviour depends on when and how many times they are executed, making them challenging to test and analyze. In functional programming, functions that perform actions are referred to as impure functions. However, actions can come in many forms: class constructors, variable access expressions, property access expressions, array access expressions, variable assignment, property deletion, and many others.
 
-- Calculations: Constructs that do not alter the state and always produce the same output for the same input. They are responsible for processing application data and are easier to test and analyze. In functional programming, these are known as pure functions. 
+- Calculations: Constructs that do not alter the state of the application and always produce the same output for the same input. They are responsible for processing application data and are easier to test and analyze. In functional programming, functions that perform calculations are known as pure functions. 
 
 - Data: Recorded facts about events that hold meaning without execution and can be interpreted in various ways.
 
