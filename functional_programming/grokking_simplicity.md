@@ -753,7 +753,9 @@ To ensure recursion does not lead to infinite loops or errors:
 
 1. Base Case: This condition stops recursion because it does not include any recursive call. Common base cases include empty arrays, empty objects, empty string, or 0.
 
-1. Recursive Case: This condition triggers the recursive call. Progress Toward Base Case: Each recursive call should move closer to the base case; at least one argument must decrease with each call.
+1. Recursive Case: This condition triggers the recursive call.
+
+1. Progress Toward Base Case: Each recursive call should move closer to the base case; at least one argument must decrease with each call.
 
 ## Design Considerations with Deep Nesting
 
