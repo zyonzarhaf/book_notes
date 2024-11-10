@@ -775,12 +775,6 @@ Taking from the example above, the client code doesn't need to know beforehand h
 
 Drawing timeline diagrams is a way of representing sequences of actions over time. It helps us understand how our software runs, and can be used to find bugs, especially when there are multiple timelines running at the same time in the system.
 
-The fundamentals of the timeline diagram are:
-
-1. If two actions occur in order, put them in the same timeline.
-
-1. If two actions can happen at the same time or out of order, they belong in separate timelines, placed side-by-side.
-
 However, to really understand how to put a timeline diagram together, it's really important to recap what was already discussed at the beginning of the book: the distinction between actions, calculations, and data, because only actions are described in the diagrams. And as previously mentioned, actions can come in many forms. This has an implication when it comes to building a timeline diagram, because we have to keep track of the specifics of a given language, to avoid skipping more subtle forms of actions.
 
 Example:
@@ -792,16 +786,34 @@ total++;
 
 ```
 
-Although hidden by built-in features of the javascript language, this code contains not only one, but **three actions**: the first action comes in the form of a variable assignment; the other two are, respectively, a read and a write to the total variable.
+Although hidden by built-in features of the javascript language, this code contains not only two, but **three actions**: the first action comes in the form of a variable assignment; the other two are, respectively, a read and a write to the total variable.
 
+We have different timelines when actions run in different threads, processes, machines, or asynchronous callbacks, depending on which threading model the language supports:
 
-And the same statement can be made for this code:
+- Single-threaded, synchronous: everything happens in order when it comes to the flow of execution of the program, meaning each operation must complete before the next one begins, leading to I/O blocking.
 
-```javascript
+- Single-threaded, asynchronous: the flow of execution happens out of order, because mechanisms such as callbacks and promises are employed to handle I/O operations, returning them to the event loop so that they get called at some unknown time in the future (typically when the I/O operation finishes and no other task is running).
 
-let total = 30;
-console.log(total);
+- Multi-threaded: the program can have different parts of it executed in parallell across multiple threads, meaning the program can have multiple timelines.
 
-```
+The fundamentals of the timeline diagram are:
 
-Here, there is a total of three actions being performed as well: variable assignment;read to the total variable; logging the variable.
+1. If two actions occur in order, put them in the same timeline. Watch out for more subtle forms of actions, as previously discussed.
+
+1. If two actions can happen at the same time or out of order, they belong in separate timelines, placed side-by-side.
+
+1. There are two kinds of sequential code: one in which there is an unknown amount of time that may pass between two actions, and one in which nothing can be run in between two actions. In the first case, actions on different timelines may interleave between any two other actions in another timeline.
+
+1. There are three kinds of ordering when we deal with multiple timelines: simultaneous, left first, and right first. Although we may draw diagrams differently to highlight one ordering, when we read a timeline diagram, we have to see these three orders, regardless of how long the lines are and how the actions line up.
+
+Additionally, there are also 5 principles that guide us to improve our code so that it's easier to understand and work with:
+
+1. Fewer timelines are easier.
+
+1. Shorter timelines are easier (reduce the number of actions in each timeline).
+
+1. Sharing fewer resources is easier (when looking at two timelines, you really only have to consider the actions that share resources across timelines).
+
+1. Coordinate when resources are shared (ensure that each timeline take turns in the right order).
+
+1. Manipulate time as a first-class concept.
