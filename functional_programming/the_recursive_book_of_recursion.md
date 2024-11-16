@@ -6,7 +6,7 @@ The technique of recursion can produce elegant code solutions and it is found in
 
 ## Understanding Recursion
 
-In a programming context, a recursive function is a function that calls itself. A function is a reusable piece of code inside a program, and all programming languages implement at least these four features in their functions:
+In a broader context, recursion is something whose definition includes itself. In a programming context, recursion is typically used in functions. A recursive function is a function that calls itself. A function is a reusable piece of code inside a program, and all programming languages implement at least these four features in their functions:
 
 - Functions have code that is run when they are called.
 
@@ -30,4 +30,8 @@ Each frame contains information about a single function call, generally includin
 
 Since the call stack is a data structure that holds information about function calls, it must use the computer's finite memory. Therefore, unlike iterative structures, the program can not call a function recursively forever without hitting a stack overflow error, which is when the program execution consumes all the computer's memory allocated for the call stack.
 
-The means to prevent this problem can be crafted within the function itself, by implementing something called a base case. In order to work properly, all functions must include at least one base case and one recursive case. The base case is a circumstance where the recursive calls stop and simply returns. Common base cases include: empty strings, empty objects, emtpy arrays, and 0. By contrast, the recursive case is a condition that triggers a recursive call.
+The means to prevent this problem can be crafted within the function itself, by implementing something called a base case. In order to work properly, all functions must include at least one base case and one recursive case. The base case is a circumstance where the recursive calls stop and simply returns. Common base cases include: empty strings, empty objects, emtpy arrays, and 0.
+
+By contrast, the recursive case is a condition that triggers a recursive call. The recursive case must be designed in a way that makes each recursive call move closer to the base case (typically, by decreasing the value of at least one of its arguments with each call).
+
+Another important aspect of the recursive case is that the code can be split into two parts: the code before the recursive call and the code after it. If there are two recursive calls, there will be a section before, one between, and one after. This means that once the base case is successfully reached, the last function call will return a value, and then the code following the recursive call in the previous function will execute, returning some other value. This process continues until all frame objects are popped off the call stack, and this is what makes recursive functions a two-way trip.
