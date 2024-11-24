@@ -38,19 +38,24 @@ Another important aspect of the recursive case is that the code can be split int
 
 ## Recursion vs. Iteration
 
-Recursive code can be written as iterative code with a loop and a stack, and iterative code can be written as recursive code. Each technique offer distinct advantages. Recursive algorithms often bring elegance to complex tasks, whereas iterative solutions tend to be more efficient in execution.  The important thing is to identify when a solution is useful and when it is not. Below is a list of common problems along with their solutions, demonstrating both recursive and iterative techniques.
+Recursive code can be written as iterative code with a loop and a stack, and iterative code can be written as recursive code. Each technique offer distinct advantages. Recursive algorithms often bring elegance to complex tasks, whereas iterative solutions tend to be more efficient in execution. The important thing is to identify when a solution is useful and when it is not. Below is a list of common problems along with their solutions, demonstrating both recursive and iterative techniques.
 
 ```python
 
 # Iteratively calculate the factorial of a number.
 
 def iterativeFactorial(n):
-    p = 1
+    product = 1
     for i in range(1, n + 1):
-        p = p * i
-    return p
+        product *= i
+    return product
 
 
 def recursiveFactorial(n):
+    if (n == 0):
+        return 1
+
+    return n * recursiveFactorial(n - 1)
+
 
 ```
