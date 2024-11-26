@@ -151,7 +151,7 @@ def recursiveFindSubstring(needle, haystack, i=0):
 
 ### Exponential Calculation Example
 
-Finally, here’s an example where recursion proves far more efficient by cutting down problem size in half with each recursive call:
+Finally, here’s an example where recursion proves far more efficient by cutting down the problem size in half with each recursive call:
 
 ```python
 
