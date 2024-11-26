@@ -178,3 +178,35 @@ def recursiveExp(a, n):
 
 
 ```
+
+### Improved Iterative Exp Function
+
+The previous example also shows how recursive approaches, even if they end up not being the most efficient solution, can sometimes provide a helpful insight on how to improve iterative code. Now we can design an iterative approach that cuts the problem size in half, just like the recursive function (and similar to the iterative call stack implemention from earlier):
+
+```python
+
+def betterIterativeExp(a, n):
+    const opStack = []
+
+    while n > 1:
+        if n % 2 == 0:
+            opStack.append('square')
+            n = n // 2
+        if n % 2 == 1:
+            opStack.append('multiply')
+            n = n - 1
+
+    result = a
+
+    while opStack:
+        op = opStack.pop()
+
+        if op == 'multiply'
+            result = result * a
+        if op == 'square'
+            result = result * result
+
+    return result
+
+
+```
