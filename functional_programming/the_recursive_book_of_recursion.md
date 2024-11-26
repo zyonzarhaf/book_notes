@@ -40,11 +40,11 @@ Another important aspect of the recursive case is that the code can be split int
 
 Recursive code can be written as iterative code with a loop and a stack, and iterative code can be written as recursive code. Each technique offer distinct advantages. Recursive algorithms often bring elegance to complex tasks, whereas iterative solutions tend to be more efficient in execution. The important thing is to identify when a solution is useful and when it is not. Below is a list of common problems along with their solutions, demonstrating both recursive and iterative techniques.
 
-The following code illustrates the inefficiency of the recursive solution. The iterative approach uses only primitive types for its operations, while the recursive solution relies on full frame objects. While this works fine for small numbers, larger inputs lead to excessive frame object creation, and this could eventually lead to a stack overflow error.
+### Factorial Example
+
+The following code illustrates the inefficiency of the recursive solution compared to an iterative approach. The iterative approach uses only primitive types for its operations, while the recursive solution relies on full frame objects. While this works fine for small numbers, larger inputs lead to excessive frame object creation and could eventually result in a stack overflow error.
 
 ```python
-
-# Iteratively calculate the factorial of a number.
 
 def iterativeFactorial(n):
     product = 1
@@ -62,13 +62,11 @@ def recursiveFactorial(n):
 
 ```
 
-The following code is a great example of the "code before the recursive call and the code after it" aspect of recursive code. In this case the recursive approach can be split into three sections: before the first recursive call (recursiveFibonacci(n - 1)), after the first recursive call (+), and after the second recursive call (recursiveFibonacci(n - 2)).
+### Fibonacci Example
 
-The recursive approach to the fibonacci sequence also illustrates very well another case of inefficiency, as the recursive calls end up creating multiple frame objects with identical values (e.g., fib(4) calls fib(3) and fib(2); and fib(3) calls fib(2) -- repeated -- and fib(1)).
+Next is an example demonstrating "code before the first recursive call, after the first recursive call, and after the second recursive call." However, the recursive approach to calculating Fibonacci numbers illustrates its limitations; multiple frame objects with identical values are created (e.g., fib(4) calls fib(3) and fib(2), while fib(3) also calls fib(2)).
 
 ```python
-
-# Iteratively calculate the fibonacci sequence
 
 def iterativeFibonacci(n):
     a = 1 
@@ -90,8 +88,9 @@ def recursiveFibonacci(n):
 
 
 ```
+### Iterative Call Stack Example
 
-The following code illustrates that it is possible to fully convert a recursive algorithm into an iterative algorithm, including a form of implementing a "call stack".
+The following code illustrates how it is possible to fully convert a recursive algorithm into an iterative algorithm using an iterative "call stack."
 
 ```python
 
@@ -103,38 +102,79 @@ while len(callStack) > 0:
     number = callStack[-1]['number']
     returnAddr = callStack[-1]['returnAddr']
 
-    # Keep filling the stack
-    if (returnAddr = 'start'): # Base case
+    if (returnAddr == 'start'): # Base case
         if (number == 1):
             returnValue = number
             callStack.pop()
             continue
-        else: # Recursive case
+        else: 
             callStack[-1]['returnAddr'] = 'after the recursive call'
             callStack.append({ 'returnAddr': 'start', 'number': number - 1})
             continue
-    # Keep emptying the stack
     else:
-        returnValue = number * returnValue
+        returnValue *= number
         callStack.pop()
         continue
 
 
 ```
 
-The following code is an example of an iterative algorithm converted into a recursive algorithm.
+### Substring Search Example
+
+Here’s an example where an iterative algorithm has been converted into a recursive algorithm with two base cases:
 
 ```python
 
 def iterativeFindSubstring(needle, haystack):
     i = 0
 
-    while i < len(needle):
-        if (haystack[i:i + len(needle)]):
+    while i < len(haystack):
+        if haystack[i:i + len(needle)] == needle:
             return i
-        i++
+
+        i = i + 1
 
     return - 1
+
+
+def recursiveFindSubstring(needle, haystack, i=0):
+    if i >= len(haystack):
+        return -1
+
+    if haystack[i:i + len(needle)] == needle:
+        return i
+
+    return recursiveFindSubstring(needle, haystack, i + 1)
+
+
+```
+
+### Exponential Calculation Example
+
+Finally, here’s an example where recursion proves far more efficient by cutting down problem size in half with each recursive call:
+
+```python
+
+def iterativeExp(a, n):
+    result = a
+   
+    for i in range(n - 1):
+        result = result * a
+
+    return result
+    
+
+def recursiveExp(a, n):
+    if n == 1:
+        return a
+
+    if n % 2 == 0:  
+        result = recursiveExp(a, n // 2)
+        return result * result
+    
+    if n % 2 == 1:
+        result = recursiveExp(a, n // 2)
+        return result * result * a
 
 
 ```
