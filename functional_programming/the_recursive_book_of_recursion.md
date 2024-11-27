@@ -186,7 +186,10 @@ The previous example also shows how recursive approaches, even if they end up no
 ```python
 
 def betterIterativeExp(a, n):
-    const opStack = []
+    if n == 0:
+        return 1
+
+    opStack = []
 
     while n > 1:
         if n % 2 == 0:
@@ -210,3 +213,17 @@ def betterIterativeExp(a, n):
 
 
 ```
+
+## Recursion vs. Iteration: Summary
+
+There isn't a problem that cannot be solved using an iterative approach, and recursion is not strictly necessary for problem-solving. However, recursion can play a valuable role in programming by:
+
+- Providing Key Insights: Recursion helps break down complex problems into manageable subproblems, making it easier to understand the overall structure of the solution.
+
+- Offering Elegance: In cases involving tree-like structures or backtracking, a recursive approach can be more elegant and intuitive.
+
+## Coming Up with Recursive Algorithms
+
+The first step to design a recursive algorithm is to identify the recursive case and the base case. If the problem can be broken down into smaller subproblems that are similar to the original problem, then the recursive case can be built to progressively work on each instance of the problem. As each instance shrinks more and more, eventually there will be one that is small enough to have a trivial answer, which would be the base case. All recursive functions have at least one recursive case and one base cse.
+
+Sometimes it is better to identify the base case first, and then see how larger and larger problems are constructed and solved from there.
