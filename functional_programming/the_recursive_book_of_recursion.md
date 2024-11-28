@@ -34,7 +34,7 @@ The means to prevent this problem can be crafted within the function itself, by 
 
 By contrast, the recursive case is a condition that triggers a recursive call. The recursive case must be designed in a way that makes each recursive call move closer to the base case (typically, by decreasing the value of at least one of its arguments with each call).
 
-Another important aspect of the recursive case is that the code can be split into two parts: the code before the recursive call and the code after it. If there are two recursive calls, there will be a section before, one between, and one after. This means that once the base case is successfully reached, the last function call will return a value, and then the code following the recursive call in the previous function will execute, returning some other value. This process continues until all frame objects are popped off the call stack, and this is what makes recursive functions a two-way trip.
+Another important aspect of the recursive case is that the code can be split into two parts: the code before the recursive call and the code after it. If there are two recursive calls, there will be a section before, one between, and one after. This means that once the base case is successfully reached, the last function call will return a value, and then the code after the recursive call from the previous function will execute, returning some other value. This process continues until all frame objects are popped off the call stack, and this is what makes recursive functions a two-way trip.
 
 ## Recursion vs. Iteration
 
@@ -214,7 +214,7 @@ def betterIterativeExp(a, n):
 
 ```
 
-## Recursion vs. Iteration: Summary
+### Recursion vs. Iteration: Summary
 
 There isn't a problem that cannot be solved using an iterative approach, and recursion is not strictly necessary for problem-solving. However, recursion can play a valuable role in programming by:
 
@@ -222,8 +222,32 @@ There isn't a problem that cannot be solved using an iterative approach, and rec
 
 - Offering Elegance: In cases involving tree-like structures or backtracking, a recursive approach can be more elegant and intuitive.
 
-## Coming Up with Recursive Algorithms
+### Coming Up with Recursive Algorithms
 
 The first step to design a recursive algorithm is to identify the recursive case and the base case. If the problem can be broken down into smaller subproblems that are similar to the original problem, then the recursive case can be built to progressively work on each instance of the problem. As each instance shrinks more and more, eventually there will be one that is small enough to have a trivial answer, which would be the base case. All recursive functions have at least one recursive case and one base cse.
 
 Sometimes it is better to identify the base case first, and then see how larger and larger problems are constructed and solved from there.
+
+## Classic Recursion Algorithms
+
+Classic recursion algorithms include summing the numbers in an array, reversing a text string, detecting whether a string is a palindrome, solving the tower of Hanois, and coming up with a form of implementing the Ackermann function.
+
+### Summing Numbers in an Array
+
+This problem can be solved by using the head-tail technique, which consists of splitting the recursive function's array argument into two parts: head and tail.
+
+```python 
+
+def arraySum(arr):
+    if len(arr) == 0:
+        return 0
+
+    head = arr[0]
+    tail = arr[1:]
+
+    return head + arraySum(tail)
+
+
+```
+
+
