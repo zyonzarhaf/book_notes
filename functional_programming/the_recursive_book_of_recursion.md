@@ -30,7 +30,7 @@ Each frame contains information about a single function call, generally includin
 
 Since the call stack is a data structure that holds information about function calls, it must use the computer's finite memory. Therefore, unlike iterative structures, the program can not call a function recursively forever without hitting a stack overflow error, which is when the program execution consumes all the computer's memory allocated for the call stack.
 
-The means to prevent this problem can be crafted within the function itself, by implementing something called a base case. In order to work properly, all functions must include at least one base case and one recursive case. The base case is a circumstance where the recursive calls stop and simply returns. Common base cases include: empty strings, empty objects, emtpy arrays, and 0.
+The means to prevent this problem can be crafted within the function itself, by implementing something called a base case. In order to work properly, all functions must include at least one base case and one recursive case. The base case is a circumstance where the recursive calls stop and simply returns. Common base cases include: empty strings, empty objects, empty arrays, and 0.
 
 By contrast, the recursive case is a condition that triggers a recursive call. The recursive case must be designed in a way that makes each recursive call move closer to the base case (typically, by decreasing the value of at least one of its arguments with each call).
 
@@ -102,7 +102,7 @@ while len(callStack) > 0:
     number = callStack[-1]['number']
     returnAddr = callStack[-1]['returnAddr']
 
-    if (returnAddr == 'start'): # Base case
+    if (returnAddr == 'start'):
         if (number == 1):
             returnValue = number
             callStack.pop()
@@ -234,7 +234,7 @@ Classic recursion algorithms include summing the numbers in an array, reversing 
 
 ### Summing Numbers in an Array
 
-This problem can be solved by using the head-tail technique, which consists of splitting the recursive function's array argument into two parts: head and tail.
+This problem can be solved by using the head-tail technique, which consists of splitting the recursive function's array argument into two parts: head and tail. By doing this we are able to pass a smaller array with each recursive call, until we end up passing an empty array (the base case, which has the sum of 0).
 
 ```python 
 
@@ -248,6 +248,52 @@ def arraySum(arr):
     return head + arraySum(tail)
 
 
+def arrConcat(arr):
+    if len(arr) == 0:
+        return ''
+
+    head = arr[0]
+    tail = arr[1:]
+
+    return head + arrConcat(tail)
+
+
 ```
 
+### Reverse a String
+
+To reverse a string using the recursive approach we can also employ the head-tail technique. The main idea is to keep passing smaller subsections of the original string to the recursive calls until we hit the base case, which means returning an empty or a single-character string because they are already the reverse of themselves. However, we have to keep in mind that placing the head after the tail is not enough. We have to place the head after the reverse of the tail.
+
+```python
+
+def recursiveReverseString(string):
+    if len(string) == 0 or len(string) == 1:
+        return string
+    
+    head = string[0]
+    tail = string[1:]
+
+    return recursiveReverseString(tail) + head
+
+
+```
+
+### Detecting Palindromes
+
+A palindrome is a word or phrase that is spelled the same when written forward and backward. Just like the previous implementation, we'll pass in smaller and smaller subsections of the original string with each recursive call. However, this time we will split the string into three parts: head, middle, and tail. By doing this we can successfully move the head and tail pointers to the right and to the left, respectively, thus comparing different parts of the string each time the recursive case is triggered.
+
+```python
+
+def recursiveIsPalindrome(string):
+    if len(string) == 0 or len(string) == 1:
+        return True
+
+    head = string[0]
+    middle = string[1:-1]
+    tail = string[-1]
+
+    return head == tail and recursiveIsPalindrome(middle)
+
+
+```
 
