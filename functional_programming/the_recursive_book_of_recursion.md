@@ -297,3 +297,14 @@ def recursiveIsPalindrome(string):
 
 ```
 
+### Solving the Tower of Hanoi
+
+The Tower of Hanoi is a puzzle consisting of three columns, in which you have to movea certain amount of disks from one column to another following these three rules:
+
+1. You can only move one disk at a time.
+
+1. You can only move disks to and from the top of a tower.
+
+1. Disks are of different widths, and you can never place a larger disk on top of a smaller disk.
+
+If we take a bottom-up approach, starting from the smallest case (in which we have only one disk) we'll find that the problem can be solved by simply moving disk 1 from tower A to tower C. By going one level up, we quickly realize that the most efficient way of solving the problem is by moving disk 1 to tower B, disk 2 to tower C, and then disk 1 to tower C. If we keep increasing the number of disks, we now realize that a pattern emerges: the steps required to solve a tower of n disks is the same to solve a tower with n - 1 disks.
