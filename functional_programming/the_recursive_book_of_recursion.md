@@ -307,4 +307,10 @@ The Tower of Hanoi is a puzzle consisting of three columns, in which you have to
 
 1. Disks are of different widths, and you can never place a larger disk on top of a smaller disk.
 
-If we take a bottom-up approach, starting from the smallest case (in which we have only one disk) we'll find that the problem can be solved by simply moving disk 1 from tower A to tower C. By going one level up, we quickly realize that the most efficient way of solving the problem is by moving disk 1 to tower B, disk 2 to tower C, and then disk 1 to tower C. If we keep increasing the number of disks, we now realize that a pattern emerges: the steps required to solve a tower of n disks is the same to solve a tower with n - 1 disks.
+Taking a bottom-up approach, we start with the simplest case of one disk. The solution is straightforward: move disk 1 from tower A to tower C. As we progress to two disks, we find that the most efficient solution is to move disk 1 to tower B, then disk 2 to tower C, and finally move disk 1 to tower C. Continuing to increase the amount of disks involved soon reveals a pattern: the steps required to solve a tower of n disks mirror those required for a tower of n - 1 disks:
+
+1. Move the n - 1 disks from the start pole to the temporary pole.
+
+1. Move the nth disk from the start pole to the end pole.
+
+1. Move the n - 1 disks from the temporary pole to the end pole.
