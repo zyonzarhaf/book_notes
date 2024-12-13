@@ -314,3 +314,37 @@ Taking a bottom-up approach, we start with the simplest case of one disk. The so
 1. Move the nth disk from the start pole to the end pole.
 
 1. Move the n - 1 disks from the temporary pole to the end pole.
+
+By following these steps we can come up with an algorithm that makes two recursive calls: one to move the n - 1 disks from the start pole to the temporary pole, and the second call to move the n - 1 disks from the temorary pole to the end pole. In between the two recursive calls, we simply move the nth disk from the start pole to the end pole.
+
+```python
+
+startTower = ['@@@@@@', '@@@@@', '@@@@', '@@@', '@@', '@']
+tempTower = []
+endTower = []
+
+
+def moveDisk(startTower, endTower):
+    endTower.append(startTower.pop())
+    return
+
+
+def recursiveTowerOfHanoi(disks, startTower, tempTower, endTower):
+    if disks == 1:
+        moveDisk(startTower, endTower)
+        return
+    else:
+        recursiveTowerOfHanoi(disks - 1, startTower, endTower, tempTower)
+        moveDisk(startTower, endTower)
+        recursiveTowerOfHanoi(disks - 1, tempTower, startTower, endTower)
+        return
+
+
+recursiveTowerOfHanoi(6, startTower, tempTower, endTower)
+print(startTower)
+print(tempTower)
+print(endTower)
+
+```
+
+ The Tower of Hanoi algorithm is more complex than previous examples due to its unique recursive structure. In this algorithm, we not only reduce the problem size with each recursive call but also change the order of elements from the argument list. The first call takes the original configuration of towers. Then, from the first recursive call onward, the last two towers and the first two towers are alternately switched to simulate movement.
