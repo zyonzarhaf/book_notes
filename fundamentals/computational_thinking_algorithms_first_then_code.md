@@ -71,4 +71,21 @@ The last approach is a linear one. The idea is to discard portions of the vector
 
 ```python
 
+def linear(fluctuations):
+    max_sum = 0, tmp = 0
+    b = 0, btmp = 0, s = 0
+
+    for i in range(0, len(fluctuations)):
+        tmp += fluctuations[i]
+        
+        if tmp > max_sum:
+            max_sum = tmp, b = btmp, s = i
+
+        if tmp < 0:
+            tmp = 0, btmp = i + 1
+
 ```
+
+In a nutshell, the algorithm examines each element in a vector, indiscriminately calculates the sum of all subvectors from D[i:j], and as long as this computation yields a value greater than the maximum sum so far, the starting point remains unchanged, and the ending point is set to the current position being examined. On the other hand, if the algorithm finds an index where the computation yields a negative sum, it sets the starting point to an index after and resets the accumulated value from the previous sums to 0. In other words, the algorithm then restarts from the "bad" slice forward. 
+
+The final solution is capable of examining all positions without passing through them more than once, hence why it is a linear algorithm.
