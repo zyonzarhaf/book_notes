@@ -315,35 +315,48 @@ Taking a bottom-up approach, we start with the simplest case of one disk. The so
 
 1. Move the n - 1 disks from the temporary pole to the end pole.
 
-By following these steps we can come up with an algorithm that makes two recursive calls: one to move the n - 1 disks from the start pole to the temporary pole, and the second call to move the n - 1 disks from the temorary pole to the end pole. In between the two recursive calls, we simply move the nth disk from the start pole to the end pole.
+By following these steps we can come up with an algorithm that makes two recursive calls: one to move the n - 1 disks from the start pole to the temporary pole, and another call to move the n - 1 disks from the temorary pole to the end pole. In between the two recursive calls, we simply move the nth disk from the start pole to the end pole.
 
 ```python
 
-startTower = ['@@@@@@', '@@@@@', '@@@@', '@@@', '@@', '@']
-tempTower = []
-endTower = []
+TOWERS = {
+    'A': list(reversed(range(1, total_disks))),
+    'B': [],
+    'C': []
+}
+
+DISKS = 6
+
+def print_towers():
+    for tower in (TOWERS['A'], TOWERS['B'], TOWERS['C']):
+        print(tower)
 
 
-def moveDisk(startTower, endTower):
-    endTower.append(startTower.pop())
+def moveDisk(right, left):
+    left.append(right.pop())
     return
 
 
-def recursiveTowerOfHanoi(disks, startTower, tempTower, endTower):
+def recursiveTowerOfHanoi(disks, right, mid, left):
     if disks == 1:
-        moveDisk(startTower, endTower)
+        moveDisk(right, left)
+        print_towers()
         return
     else:
-        recursiveTowerOfHanoi(disks - 1, startTower, endTower, tempTower)
-        moveDisk(startTower, endTower)
-        recursiveTowerOfHanoi(disks - 1, tempTower, startTower, endTower)
+        recursiveTowerOfHanoi(disks - 1, right, left, mid)
+        moveDisk(right, left)
+        print_towers()
+        recursiveTowerOfHanoi(disks - 1, mid, right, left)
         return
 
+print_towers()
 
-recursiveTowerOfHanoi(6, startTower, tempTower, endTower)
-print(startTower)
-print(tempTower)
-print(endTower)
+recursiveTowerOfHanoi(
+    DISKS,
+    TOWERS['A'],
+    TOWERS['B'],
+    TOWERS['C']
+)
 
 ```
 
