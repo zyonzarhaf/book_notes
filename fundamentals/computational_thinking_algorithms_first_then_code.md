@@ -1,0 +1,74 @@
+# The Runner Up Problem
+
+In one out of two cases, the wrong contender is awarded first place. This issue was introduced by Lewis Carroll, the author of Alice in Wonderland. A true finalist can only reach the final if itstarts in the half staged opposed to the winner. This occurrence has a 50/50 probability, as the real finalist could begin in either half.
+
+## Naive Solution
+
+One straightforward solution is to conduct another tournament with n − 1 participants, excluding the first place winner, thus leading to n - 2 comparisons, and a total of 2n - 3 comparisons. This method is overly simplistic.
+
+## Lewis Carroll's Solution
+
+Carroll's solution involves identifying the maximum among all participants who lost directly to the champion. Since the champion plays exactly one match per level, the number of contenders who lost is equal to the number of levels, denoted as k for n = 2 ^ k. Isolating k, we find k = log2(n). To determine the real runner-up, we need to compare these contenders, resulting in log2(n) − 1 additional comparisons. Thus, the total number of comparisons is n − 1 + (log2(n) − 1) = n + log2(n) − 2.
+
+# A Financial Problem
+
+The problem revolves around the question of when to buy a number of shares of a stock, and when to sell them to maximize profit. In computer science, this is the equivalent of the Maximum Subarray Sum problem, in which, given a vector D, we determine a contiguous subvector that contains the maximum sum out of the other contiguous subvectors.
+
+There are two cases in which the Maximum Subarray Sum problem becomes trivial, and this is expresssed through the financial problem proposed in the book: if the vector consists entirely of positive numbers, then the maximum subarray sum is the entire array. And if the vector consists of negative numbers only, the maximum subarray is a subvector containing the maximum number out of the entire vector.
+
+The main problem takes place in a vector containing positive and negative numbers. The goal is to design an algorithm that computes the sum of the values in a specific slice of the vector where the total is maximized.
+
+The first (naive) approach to this problem is a cubic algorithm that employs three nested for-loops. The first two loops examine all possible intervals within a vector D[1, n]. Each loop uses a control variable that acts as a pointer: the outer loop determines the starting point of an interval, while the inner loop identifies the ending point. The third loop computes the sum of the values in the specific slice D[i:j] using an auxiliary variable 'tmp'. If the total sum of D[i:j] exceeds the best result computed so far, stored in a variable 'max_sum', then 'tmp' is updated. Additionally, the starting and ending points of the interval that produced this sum are both saved in variables 'b' and 's', respectively. In the context of financial problems, these variables correspond to the buying and selling instants.
+
+```python
+
+def cubic(fluctuations):
+    max_sum = float('-inf')
+    buy = 0
+    sell = 0
+
+    for i in range(0, len(fluctuations)):
+        for j in range(i, len(fluctuations)):
+            tmp = 0
+            for k in range(i, j + 1):
+                tmp += fluctuations[k]
+            if tmp > max_sum:
+                max_sum = tmp
+                buy = i
+                sell = j
+
+    print(f'Buy: {buy}. Sell: {sell}. Max Subarray Sum: {max_sum}')```
+
+
+The second approach consists in a quadratic algorithm, motivated by a key inneficiency of the previous algorithm: if we consider two consecutive iterations of the middle for-loop, we notice that the sums computed by the first and the second iterations differ only by the value D[j + 1] -- the rightmost element in a subarray. 
+
+This means the algorithm is wasting resources by computing the same values from scratch everytime the ending point moves one index forward. To solve this, we move our 'tmp' variable to the outer for-loop, making our algorithm reuse the value currently stored in 'tmp' instead of adding up one by one all over again:
+
+```python
+
+def quadratic(fluctuations):
+    max_sum = float('-inf')
+    buy = 0
+    sell = 0
+
+    for i in range(0, len(fluctuations)):
+        tmp = 0
+        for j in range(i, len(fluctuations)):
+            tmp += fluctuations[j]
+        if tmp > max_sum:
+            max_sum = tmp
+            buy = i
+            sell = j
+
+    print(f'Buy: {buy}. Sell: {sell}. Max Subarray Sum: {max_sum}')```
+
+
+The last approach is a linear one. The idea is to discard portions of the vector that do not contain the maximum sum without examining them. The algorithm that achieves such a goal is based on two key properties found in the optimal slice:
+
+1. Every portion that ends just before the optimal one has a negative sum of its elements. This can be proven by contradiction: if we assume that there is, in fact, a portion D[i: b - 1] of positive sum, we'd have to admit this slice as part of the maximum subarray, as this would yield a larger total.
+
+1. Every portion that starts where the optimal one starts, and every portion that is included in it, has a positive sum of its elements. This also can be proven by contradiction: if we assume that there is, in fact, a portion D[b:j] where b <= j <= s with negative sum, then we'd have to rule it out from the maximum subarray, as doing so would increase its sum.
+
+```python
+
+```
