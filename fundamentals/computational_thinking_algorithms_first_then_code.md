@@ -89,3 +89,17 @@ def linear(fluctuations):
 In a nutshell, the algorithm examines each element in a vector, indiscriminately calculates the sum of all subvectors from D[i:j], and as long as this computation yields a value greater than the maximum sum so far, the starting point remains unchanged, and the ending point is set to the current position being examined. On the other hand, if the algorithm finds an index where the computation yields a negative sum, it sets the starting point to an index after and resets the accumulated value from the previous sums to 0. In other words, the algorithm then restarts from the "bad" slice forward. 
 
 The final solution is capable of examining all positions without passing through them more than once, hence why it is a linear algorithm.
+
+## Algorithm Efficiency Versus Hardware Efficiency
+
+According to Moore's Law, the performance of computers doubles approximately every 18 months. When making a proportional comparison between the time taken by a slower computer and a faster computer to run the same algorithm, it becomes evident that the advantage gained from using the faster computer still depends on the time efficiency of the executed algorithm. This relationship can be demonstrated through asymptotic analysis in an abstract computer model.
+
+To accurately represent the increase in computer capacity without misrepresenting the algorithm's complexity, we express the time complexity of an algorithm such as T(n) = n (slower computer) as T∗(n) = kT (faster computer), where r represents how many times faster the new computer is, allowing for an increase in its input size.
+
+To determine how many elements can be processed by an algorithm within a bounded time window T, we set the function equal to T and solve for the variable n. For the slower computer, this results in the expression n = T, whereas for the faster computer this results in the expression n' = kT. By directly comparing both expressions -- n = T = n' = kT -- we get n' = kn.
+
+This means that if the slower computer can process n elements in time T, then the faster computer process k times more elements in the same amount of time.
+
+If we run an algorithm such as T(n) = n^3 on a faster computer, and an algorithm like T(n) = n^2 on a slower computer, applying the same principles from above and solving the equation for k would result in k = sqrt[2]{T}.
+
+This means that if the slower computer can process n elements in time sqrt[2]{T}, then the faster computer needs another sqrt[2]{T} faster computer to process the same number of elements.
