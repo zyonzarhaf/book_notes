@@ -204,3 +204,106 @@ function merge(array, left, mid, right) {
   }
 }
 
+function getValueByKey(any, key) {
+  if (Array.isArray(any)) {
+    for (let i = 0; i < any.length; i++) {
+      const result = getValueByKey(any[i], key);
+      if (result !== undefined) return result;
+    }
+  }
+
+  if (typeof any === "object" && any !== null) {
+    for (const k in any) {
+      const result = getValueByKey(any[k], key);
+      if (result !== undefined) return result;
+    }
+  }
+
+  if (any.hasOwnProperty(key)) {
+    return any[key];
+  }
+
+  return undefined;
+}
+
+function containsKey(any, key) {
+  if (Array.isArray(any)) {
+    for (let i = 0; i < any.length; i++) {
+      if (containsKey(any[i], key)) {
+        return true;
+      }
+    }
+  }
+
+  if (typeof any === "object" && any !== null) {
+    for (const k in any) {
+      if (containsKey(any[k], key)) {
+        return true;
+      }
+    }
+  }
+
+  if (any.hasOwnProperty(key)) {
+    return true;
+  }
+
+  return false;
+}
+
+function containsValue(any, value) {
+  function arraysEqual(arr, value) {
+    if (arr.length !== value.length) return false;
+    for (let i = 0; i < arr.length; i++) {
+      if (!isEqual(arr[i], value[i])) return false;
+    }
+    return true;
+  }
+
+  function isEqual(any, value) {
+    if (typeof any !== typeof value) return false;
+    if (typeof any !== "object") return any === value;
+    if (Array.isArray(any) && Array.isArray(value)) {
+      return arraysEqual(any, value);
+    }
+  }
+
+  if (isEqual(any, value)) {
+    return true;
+  }
+
+  if (typeof any !== "object" || any === null) {
+    return false;
+  }
+
+  for (const key in any) {
+    if (containsValue(any[key], value)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const result = getValueByKey(
+  [
+    {
+      data: [
+        {
+          foo: "foo"
+        },
+        {
+          bar: "bar"
+        },
+        {
+          fizz: "fizz"
+        },
+        {
+          name: "buzz"
+        }
+      ]
+    }
+  ],
+  "name"
+);
+
+console.log(result);
