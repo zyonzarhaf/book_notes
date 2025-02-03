@@ -1,4 +1,4 @@
-# Notes on Engenharia de Software, Sommervile
+# Notes on Engenharia de Software, Sommerville
 
 ### Breve mapa:
 
@@ -60,7 +60,7 @@ A depender do nível de complexidade do processo, essa atividade pode ser divida
 
 2. Elicitação e Análise de Requisitos: definição dos requisitos propriamente ditos do software através de discussões, prototipações, observação de sistemas existentes, entre outras técnicas. Os requisitos devem ser dividos em funcionais e não-funcionais. Requisitos funcionais são ações que o software deve realizar, ao passo que requisitos não-funcionais são propriedades que o software deve possuir, como performance, segurança, compatibilidade entre plataformas, entre outras. São mais difíceis de interpretar e podem afetar mais de um componente do sistema de uma só vez, ou outros requisitos funcionais e não funcioanis. Por isso, é importante expressar os requisitos não funcionais de forma quantitativa sempre que possível.
 
-3. Especificação de Requisitos: tradução dos requisitos coletados na sub-atividade anterior em um documento, classificando-os em requisitos do usuário (descrição de alto nível) e requisitos do sistema (descrição de baixo nível -- muitas vezes é um desdobramento de um requisito mais simples, gerando váriios requisitos mais detalhados). O documento gerado nesse momento é chamado de SRS -- Software Requirements Specification. Dentro de processos ágeis o documento em si pode ser substituído por outros elementos menos formais, como cartões de estórias de usuários.
+3. Especificação de Requisitos: tradução dos requisitos coletados na sub-atividade anterior em um documento, classificando-os em requisitos do usuário (descrição de alto nível) e requisitos do sistema (descrição de baixo nível -- muitas vezes é um desdobramento de um requisito mais simples, gerando váriios requisitos mais detalhados). O documento gerado nesse momento é chamado de SRS -- Software Requirements Specification. Dentro de processos ágeis o documento em si pode ser substituído por outros elementos menos formais, como cartões de estórias de usuários. Um modelo de SRS pode ser encontrado em SOMMERVILLE (2011, p. 79).
 
 4. Validação de Requisitos: Identificação e correção de erros no documento anterior.
 
