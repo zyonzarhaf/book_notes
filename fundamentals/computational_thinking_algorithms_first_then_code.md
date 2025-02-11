@@ -103,3 +103,11 @@ This means that if the slower computer can process n elements in time T, then th
 If we run an algorithm such as T(n) = n^3 on a faster computer, and an algorithm like T(n) = n^2 on a slower computer, applying the same principles from above and solving the equation for k would result in k = sqrt[2]{T}.
 
 This means that if the slower computer can process n elements in time sqrt[2]{T}, then the faster computer needs another sqrt[2]{T} faster computer to process the same number of elements.
+
+# Secret Message
+
+Etymologically speaking, cryptography means "hidden writting". It is an ancient practice that dates from even before Julius Caesar, who is often cited as the father of encryption. Roughly speaking, cryptography consists of transforming a message (or information) using rules that are known only to the sender and the receiver. Therefore, the secrecy is the determinant aspect of cryptography. Following the Caesar's cypher, all cyphers required an additional piece of information, nowadays known as the secret key. The secret key is capable of changing the rules of transformation, enhancing the secrecy aspect of cryptography.
+
+Encryption relies heavily on various mathematical concepts. One of them is the concept of modularity. Modularity is an arithmetic property that makes certain numbers "wrap around" when reaching a certain value, called the modulus. The clock is a popular example of this property, because passing 11:59 the clock counts back from 00:00, also known as counting the hours module 12. Similarly, if it is an analog clock, once you reach 12, you start over at 1.
+
+This is relevant to the earlier definition of encryption because the module does something very similar: it transforms a piece of information into something else, based on some set of rules (the modulus), consistently.
