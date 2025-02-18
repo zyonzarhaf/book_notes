@@ -1,15 +1,5 @@
 # Notes on Engenharia de Software, Sommerville
 
-### Breve mapa:
-
-- Cap. 1: O que é Engenharia de Software.
-
-- Cap. 2: Processos de Desenvolvimento de Software sob um viés mais genérico, incluindo suas atividades básicas.
-
-- Cap. 3: Métodos Ágeis de desenvolvimento de software.
-
-- Cap. 4 em diante: Atividades de processos, sob um viés mais detalhado.
-
 ## Engenharia de Software
 
 Disciplina de engenharia que se preocupa com a sistematização e organização da produção de software profissional.
@@ -52,25 +42,39 @@ As atividades consistem em integrar componentes de um sistema já existente em v
 
 ### Engenharia de Requisitos 
 
-A primeira atividade que é comum a todos os processos de desenvolvimento é a especificação de software, também chamada de engenharia de requisitos, definição de requisitos, especificação de requisitos, entre outras tantas nomenclaturas que, em geral, designam a mesma coisa: a estabelecer o que o software deve fazer.
+A primeira atividade que é comum a todos os processos de desenvolvimento é a especificação de software, também chamada de engenharia de requisitos, definição de requisitos, especificação de requisitos, entre outras tantas nomenclaturas que, em geral, designam a mesma coisa: estabelecer o que o software deve fazer.
 
 A depender do nível de complexidade do processo, essa atividade pode ser divida em outras sub-atividades, como:
 
-1. Estudo de Viabilidade: estimativa da possibilidade de se satisfazerem as necessidades do usuário identificado usando-se tecnologias atuais de software e hardware.
+#### Estudo de Viabilidade 
 
-2. Elicitação e Análise de Requisitos: definição dos requisitos propriamente ditos do software através de discussões, prototipações, observação de sistemas existentes, entre outras técnicas. Os requisitos devem ser dividos em funcionais e não-funcionais. Requisitos funcionais são ações que o software deve realizar, ao passo que requisitos não-funcionais são propriedades que o software deve possuir, como performance, segurança, compatibilidade entre plataformas, entre outras. São mais difíceis de interpretar e podem afetar mais de um componente do sistema de uma só vez, ou outros requisitos funcionais e não funcioanis. Por isso, é importante expressar os requisitos não funcionais de forma quantitativa sempre que possível.
+Estimativa da possibilidade de se satisfazerem as necessidades do usuário identificado usando-se tecnologias atuais de software e hardware.
 
-3. Especificação de Requisitos: tradução dos requisitos coletados na sub-atividade anterior em um documento, classificando-os em requisitos do usuário (descrição de alto nível) e requisitos do sistema (descrição de baixo nível -- muitas vezes é um desdobramento de um requisito mais simples, gerando váriios requisitos mais detalhados). O documento gerado nesse momento é chamado de SRS -- Software Requirements Specification. Dentro de processos ágeis o documento em si pode ser substituído por outros elementos menos formais, como cartões de estórias de usuários. Um modelo de SRS pode ser encontrado em SOMMERVILLE (2011, p. 79).
+#### Elicitação e Análise de requisitos
 
-4. Validação de Requisitos: Identificação e correção de erros no documento anterior.
+Trata-se da definição dos requisitos propriamente ditos do software através de discussões, prototipações, observação de sistemas existentes, entre outras técnicas. Os requisitos devem ser dividos em: de usuário, de sistema, funcionais e não-funcionais.
+
+Requisitos de usuário normalmente são expressados em linguagem natural e contém menos detalhamento. Já os requisitos de sistema, além de linguagem natural, podem usar fluxogramas e diagramas específicos para uma descrição mais técnica e detalhada do sistema.
+
+Requisitos funcionais são ações que o software deve realizar, ao passo que requisitos não-funcionais são propriedades que o software deve possuir, como performance, segurança, compatibilidade entre plataformas, entre outras. São mais difíceis de interpretar e podem causar conflitos com outros requisitos funcionais e não funcionais.
+
+Diversas técnicas de elicitação de requisitos podem ser utilizadas: entrevistas (fechadas e abertas), cenários, diagramas de casos de uso, etnografia, observação de sistemas pré-existentes, discussões em grupo, entre outras.
+
+#### Especificação de Requisitos 
+
+É a tradução dos requisitos coletados na sub-atividade anterior em um documento, geralmente contendo linguagem natural, esquemas, fluxogramas e diagramas de UML. O documento em si é comumente chamado de SRS -- Software Requirements Specification. Um modelo de SRS pode ser encontrado em Sommerville (2011, p. 79), e um exemplo de especificação de requisitos em linguagem natural na página 82. 
+
+#### Validação de Requisitos
+
+Identificação e correção de erros no documento anterior.
 
 ### Projeto e Implementação de Software
 
-Também chamada de desenvolvimento de software, é a tradução das especificações do software em um sistema execútável.
+Também chamado de desenvolvimento de software, é a tradução das especificações do software em um sistema execútável. A depender do nível de complexidade do processo, essa atividade pode ser dividida em outras sub-atividades, como:
 
-A depender do nível de complexidade do processo, essa atividade pode ser dividida em outras sub-atividades, como:
+#### Projeto de Arquitetura
 
-1. Projeto de Arquitetura: definição da estrutura geral do sistema, incluindo seus componentes principais e o relacionamento entre eles.
+Trata-se da definição da estrutura geral do sistema, incluindo seus componentes principais e o relacionamento entre eles.
 
 2. Projeto de Interface: definição das interfaces entre os componentes, ou seja, como eles se comunicam entre si.
 
