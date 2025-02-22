@@ -14,13 +14,25 @@ Common patterns involving function composition are:
 
 2. Partial Application: a function is wrapped by another function that consistently supplies specific arguments to it, along with any new arguments provided, allowing the wrapped function to have some of its parameters fixed -- thus creating a partially applied version of it.
 
-3. Monoids: the concept of a monoid comes from abstract algebra, and it is defined formally as a set equipped with a binary operation, in which elements can be combined to produce another element also contained by it, in whichever order of operation, and possibly including an identity element that leaves any element unchanged when combined with it.
+3. Monoids: the concept of a monoid comes from abstract algebra, and it is defined formally as a set of elements that can participate in a binary operation to produce another element that is also contained within the set, regardless of the order in which the operation is applied. Additionally, there exists an identity element that leaves any element unchanged when combined with it. These three aspects maps to the three axioms that a system must satisfy to be classified as a monoid:
+
+    1. closure (the pairwise operation between elements from the set produce another element of the same type);
+    
+    2. associativy (the order of the operation does not matter);
+
+    3. identity element (there has to exist an element such that when combined with another element it leaves the latter untouched).
+
+    Monoid as a pattern in functional programming can be achieved by writting functions that operate on some type and return values that same type, while also supporting a parameter that can participate in the operation without altering the result. This last part can be achieved by using either:
+
+    1. the natural identity element associated with a built-in type (e.g., `""` for string concatenation, or "0" for integers under addition);
+
+    2. a custom-defined identity value for user-defined types.
 
 4. Bind: 
 
 5. Map:
 
-3. TODO: **Understand the fluent interface, the builder pattern, what a monad is, what a bind is, and, finally, what Railroad Oriented Pattern is.** Start here [https://www.reddit.com/r/functionalprogramming/], then watch the videos opened in your browser, lmao, bye hf T_T.
+3. TODO: **go through interface, builder pattern, bind, and Railroad Oriented Pattern**. 
 
 ## Making Implicit Inputs Explicit: Parametrize Everything
 
