@@ -22,7 +22,7 @@ Common patterns involving function composition are:
 
     3. identity element (there has to exist an element such that when combined with another element it leaves the latter untouched).
 
-    Monoid as a pattern in functional programming can be achieved by writting functions that operate on some type and return values that same type, while also supporting a parameter that can participate in the operation without altering the result. This last part can be achieved by using either:
+    Monoid as a pattern in functional programming can be achieved by writting functions that operate on some type and return values of that same type, while also supporting a parameter that can participate in the operation without altering the result. This last part can be achieved by using either:
 
     1. the natural identity element associated with a built-in type (e.g., `""` for string concatenation, or "0" for integers under addition);
 
