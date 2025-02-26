@@ -34,7 +34,9 @@ Monoid as a pattern can be achieved by writting functions that operate on some t
 
 1. The natural identity element associated with a built-in type (e.g., `""` for string concatenation, "0" for integers under addition, "1" for integers under multiplication, "[]" for concatenated lists, etc);
 
-2. A custom-defined identity value for user-defined types. Two tips come in handy when creating a custom type: number one is always make sure that each field of the type is also a monoid, and number two is to replace single items with lists when dealing with non-numeric types.
+2. A custom-defined identity value for user-defined types.
+
+Non-monoids can also be converted into monoids by using some of these techniques: always make sure that each field of the user-defined type is also a monoid; replace non-numeric types with lists or similar data structures that can easily be operated on as monoids; try to move the operation into the object; create an identity element by using discriminated union types.
 
 ## Bind: 
 
