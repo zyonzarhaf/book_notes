@@ -8,11 +8,11 @@ We can also compose types in functional programming, in a more simple manner com
 
 With these observations made, we can safely say that functional patterns mainly are about function compositions, type compositions, and how functions operate on types.
 
-## The Decorator Pattern
+## The Decorator Pattern As a Result of Functions Being First Class Objects
 
 A function is wrapped by another function to dynamically extend or modify its behavior, while preserving their independence, keeping them decoupled.
 
-## The Currying Pattern
+## Currying
 
 A multiple parameter function is turned into a sequence of functions. Each function in the sequence takes a single argument and returns another function that takes the next argument in the list.
 
@@ -37,6 +37,32 @@ Monoid as a pattern can be achieved by writting functions that operate on some t
 2. A custom-defined identity value for user-defined types.
 
 Non-monoids can also be converted into monoids by using some of these techniques: always make sure that each field of the user-defined type is also a monoid; replace non-numeric types with lists or similar data structures that can easily be operated on as monoids; try to move the operation into the object; create an identity element by using discriminated union types.
+
+## Monads
+
+Monads are monoids in the category of endofunctors. A functor can be thought of as a container for types. It takes a value from a given type, performs operations on it, and returns not a value of the same type, but another container either of a different or of the same type. When the functor returns a functor of the same type, it is classified as an endofunctor.
+
+```python
+
+# Supposing this a general Functor
+# and it returns another type of Functor
+class Functor:
+    def __init__(self, value: Any): 
+        self.value = value
+
+    def map(self, func: Callable[[Any], Any]) -> AnotherFunctor:
+        return AnotherFunctor(func(self.value))
+
+
+# Supposing this is a specific type of Functor,
+# something like the Maybe functor.
+class EndoFunctor:
+    def __init__(self, value: Any):
+        self.value = value
+
+    def map(self, func: Callable[[Any], Any]) -> EndoFunctor:
+        return EndoFunctor(func(self.value))
+```
 
 ## Bind: 
 
