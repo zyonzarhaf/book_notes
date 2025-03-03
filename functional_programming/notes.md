@@ -40,29 +40,23 @@ Non-monoids can also be converted into monoids by using some of these techniques
 
 ## Monads
 
-Monads are monoids in the category of endofunctors. A functor can be thought of as a container for types. It takes a value from a given type, performs operations on it, and returns not a value of the same type, but another container either of a different or of the same type. When the functor returns a functor of the same type, it is classified as an endofunctor.
+Monads are a pattern that stems from category theory. In category theory, a category is a structure containing objects and morphisms. Morphisms are meaningful relationships or mappings between objects within a category, satisfying three key properties:
 
-```python
+1. They can be composed if the target of one morphism matches the source of another. For example: if f: X -> Y and g: Y -> Z, then their composition is given by g o f: X -> Z, which is also a valid morphism.
 
-# Supposing this a general Functor
-# and it returns another type of Functor
-class Functor:
-    def __init__(self, value: Any): 
-        self.value = value
+2. The compositions are associative, meaning if there are three morphisms f, g, h, then h o (g o f) = (h o g) o f.
 
-    def map(self, func: Callable[[Any], Any]) -> AnotherFunctor:
-        return AnotherFunctor(func(self.value))
+3. Every object in a category has an identity morphism that maps the object to itself and effectively leaves the object untouched (1X(x) = x, ∀x ∈ X, or  1X: X -> X).
 
+Rather than mapping objects to other objects within a category, a monad maps both objects and morphisms (the relationship between them) while preserving its monadic structure. Additionally, monads are equipped with two natural transfomrations, namely the unit (it wraps a value in the monadic context) and the bind (it allows the chaining of computations that use the wrapped value and return another monad with the result, feeding into each other).
 
-# Supposing this is a specific type of Functor,
-# something like the Maybe functor.
-class EndoFunctor:
-    def __init__(self, value: Any):
-        self.value = value
+These transformations abide to the monad rules:
 
-    def map(self, func: Callable[[Any], Any]) -> EndoFunctor:
-        return EndoFunctor(func(self.value))
-```
+1. Left and right identity: applying the unit transformation to a value and then immediately binding a function to it should have the same effect as applying the function directly to the value(supposing the binded function correctly returns the same type of monad); applying bind to a function that does nothing should leave the monadic value untouched.
+
+2. Associativity: the order in which sequential operations are binded together does not matter.
+
+Unlike simple function composition, which can lead to nested or complex function calls, or cluttered imperative code, monads lead to clean, readable, and predictable code. It is a way of handling effects like state, I/O, optional values, asynchronous operations, etc, without having to write nested if statements with exception handling, or build complex function compositions.
 
 ## Bind: 
 
