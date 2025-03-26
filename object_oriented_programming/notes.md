@@ -282,11 +282,11 @@ In a traditional dependency flow, high-level classes depend directly on low-leve
 
 # Design Patterns
 
-A design pattern is a high level description of a solution to a commonly occuring problem in a context where architecting and constructing something is central. The idea behind design patterns is to provide a implementation-agnostic solution to a problem. This was first described by Christopher Alexander, an architect, and widely adopted by programmers in the centuries that followed the publication of his book, The Pattern Language, in the 70's.
+Design patterns are high-level, implementation-agnostic solutions to recurring problems in the realm of architecture and design. The concept was introduced by the architect Christopher Alexander, and was later adopted by programmers in the centuries following the publication of his book A Pattern Language, in 1970.
 
-In programming, patterns are typically described in terms of intent, motivation, structure, and code example. Additionally, the applicability of the pattern, implementation steps and relations with other patterns can also be found in some pattern catalogs.
+In software engineering, design patterns are typically described in terms of their intent, motivation, structure, and code examples. Some pattern catalogs also include details about applicability, implementation steps, and correlation with other patterns.
 
-Although not the first book on programming design patterns, Design Patterns: elements of reusable object-oriented software (by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides -- The Gang of Four, or GoF) was the first book with the intent of catalog and formalize software design patterns up until the 90's, and the book describes the main patterns that are still widely used today. In the book, each pattern is described as belonging to one of three categories: creational patterns, structural patterns, and behavioral patterns. These categories are still used today.
+Although not the first book on software design patterns, Design Patterns: Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides was pivotal in formalizing and cataloging software design patterns in the 1990s. Each pattern described in the book falls into one of three categories: creational patterns, structural patterns, and behavioral patterns.
 
 ## Idioms
 
