@@ -282,44 +282,13 @@ In a traditional dependency flow, high-level classes depend directly on low-leve
 
 # Design Patterns
 
-Design patterns are high-level, implementation-agnostic solutions to recurring problems in the realm of architecture and design. The concept was introduced by the architect Christopher Alexander, and was later adopted by programmers in the centuries following the publication of his book A Pattern Language, in 1970.
+Design patterns are high-level, implementation-agnostic solutions to recurring problems in the realm of architecture and design. The concept was introduced by the architect Christopher Alexander, and was later adopted by programmers in the centuries following the publication of his book A Pattern Language, in 1977.
 
 In software engineering, design patterns are typically described in terms of their intent, motivation, structure, and code examples. Some pattern catalogs also include details about applicability, implementation steps, and correlation with other patterns.
 
 Although not the first book on software design patterns, Design Patterns: Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides was pivotal in formalizing and cataloging software design patterns in the 1990s. Each pattern described in the book falls into one of three categories: creational patterns, structural patterns, and behavioral patterns.
 
-## Idioms
-
-Idioms are the most basic and low-level paatterns, usually applied only to a single programming language. Some examples include:
-
-- Python, list comprehension: replaces for loops with one-liners for building lists.
-
-```python
-
-squares = [x**2 for x in range(10)]
-
-```
-- Javascript, specifying a default value: uses the OR operator to assign a value if it's defined, or another value if it's not.
-
-```Javascript
-
-const thisIsUndefined = undefined;
-const thisCannotBeUndefined = thisIsUndefined || "I guarantee this is not undefined!";
-
-```
-The most universal and high-level patterns are architectural patterns. They are scoped to the entire application, and not just a specific part of it. Some common examples include:
-
-- Layered Architecture: organizes the application into layers, each with a specific responsibility (e.g. presentation, business logic, and data access). Each layer interacts only with the layer directly below or above it. [https://medium.com/clean-code-development/stratified-design-over-layered-design-125727c7e15](Interesting article on the subject.)
-
-- Model View Controller: builds from the previous one and organizes the application into three main layers. The model layer handles data and business logic, the view layer manages user interface, and the controller is an intermediary between the model and the view.
-
-- Hexagonal Architecture: separates the application from its external dependencies, such as databases and APIs, by defining ports for interaction and adapters for implementation.
-
-And many more.
-
 ## Creational Patterns
-
-Provide object creation mechanisms that increase flexibility and reuse of existing code.
 
 ## Structural Patterns
 
