@@ -282,7 +282,7 @@ In a traditional dependency flow, high-level classes depend directly on low-leve
 
 # Design Patterns
 
-Design patterns are high-level, implementation-agnostic solutions to recurring problems in the realm of architecture and design. The concept was introduced by the architect Christopher Alexander, and was later adopted by programmers in the centuries following the publication of his book A Pattern Language, in 1977.
+Design patterns are high-level, implementation-agnostic solutions to recurring problems in the realm of architecture and design. The concept was introduced by the architect Christopher Alexander, and was later adopted by programmers in the decades following the publication of his book A Pattern Language, in 1977.
 
 In software engineering, design patterns are typically described in terms of their intent, motivation, structure, and code examples. Some pattern catalogs also include details about applicability, implementation steps, and correlation with other patterns.
 
