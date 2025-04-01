@@ -282,45 +282,88 @@ In a traditional dependency flow, high-level classes depend directly on low-leve
 
 # Design Patterns
 
-A design pattern is a high level description of a solution to a commonly occuring problem in a context where architecting and constructing something is central. The idea behind design patterns is to provide a implementation-agnostic solution to a problem. This was first described by Christopher Alexander, an architect, and widely adopted by programmers in the centuries that followed the publication of his book, The Pattern Language, in the 70's.
+Design patterns are high-level, implementation-agnostic solutions to recurring problems in the realm of architecture and design. The concept was introduced by the architect Christopher Alexander, and was later adopted by programmers in the decades following the publication of his book A Pattern Language, in 1977.
 
-In programming, patterns are typically described in terms of intent, motivation, structure, and code example. Additionally, the applicability of the pattern, implementation steps and relations with other patterns can also be found in some pattern catalogs.
+In software engineering, design patterns are typically described in terms of their intent, motivation, structure, and code examples. Some pattern catalogs also include details about applicability, implementation steps, and correlation with other patterns.
 
-Although not the first book on programming design patterns, Design Patterns: elements of reusable object-oriented software (by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides -- The Gang of Four, or GoF) was the first book with the intent of catalog and formalize software design patterns up until the 90's, and the book describes the main patterns that are still widely used today. In the book, each pattern is described as belonging to one of three categories: creational patterns, structural patterns, and behavioral patterns. These categories are still used today.
-
-## Idioms
-
-Idioms are the most basic and low-level paatterns, usually applied only to a single programming language. Some examples include:
-
-- Python, list comprehension: replaces for loops with one-liners for building lists.
-
-```python
-
-squares = [x**2 for x in range(10)]
-
-```
-- Javascript, specifying a default value: uses the OR operator to assign a value if it's defined, or another value if it's not.
-
-```Javascript
-
-const thisIsUndefined = undefined;
-const thisCannotBeUndefined = thisIsUndefined || "I guarantee this is not undefined!";
-
-```
-The most universal and high-level patterns are architectural patterns. They are scoped to the entire application, and not just a specific part of it. Some common examples include:
-
-- Layered Architecture: organizes the application into layers, each with a specific responsibility (e.g. presentation, business logic, and data access). Each layer interacts only with the layer directly below or above it. [https://medium.com/clean-code-development/stratified-design-over-layered-design-125727c7e15](Interesting article on the subject.)
-
-- Model View Controller: builds from the previous one and organizes the application into three main layers. The model layer handles data and business logic, the view layer manages user interface, and the controller is an intermediary between the model and the view.
-
-- Hexagonal Architecture: separates the application from its external dependencies, such as databases and APIs, by defining ports for interaction and adapters for implementation.
-
-And many more.
+Although not the first book on software design patterns, Design Patterns: Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides was pivotal in formalizing and cataloging software design patterns in the 1990s. Each pattern described in the book falls into one of three categories: creational patterns, structural patterns, and behavioral patterns.
 
 ## Creational Patterns
 
-Provide object creation mechanisms that increase flexibility and reuse of existing code.
+Creational patterns provide high-level solutions for recurring problems related to object creation.
+
+### Factory Method
+
+Defines a mechanism for creating different types of an object without specifying its concrete class. It achieves this by encapsulating the decision of which object to instantiate within a factory class, thereby eliminating the need to scatter conditional logic across the program. In order for this to work properly, objects must implement a common interface that the factory class can work with.
+
+Since modifying an existing factory to support new specific types of objects can violate the open/closed principle, the factory is typically extended by specific factories, with each one responsible for creating a particular type of object. To keep avoiding excessive conditional logic in the program, the client code can then choose which specific factory to use based on its own requirements.
+
+### Abstract Factory
+
+Defines a mechanism for creating different families of related objects without specifying their concrete classes. This pattern builds upon the core concept of the Factory Method by having a factory class define not one, but a set of factory methods, with the goal of creating objects thatwork together cohesively within a specific context.
+
+### Builder
+
+Defines a mechanism for creating different representations of a complex object using the same construction code. It achieves this by moving the object construction code out of its own class to a standalone object called the builder. The builder organizes the construction process into a set of steps that can be selected and executed in any order to produce a particular object configuration. The finished product is typically returned by calling a specialized method to prevent other objects from accessing the product while it is being built.
+
+Like the majority of design patterns, there are many ways to implement the builder. Some approaches merely use the builder to hide ugly, bloated constructor parameters, often neglecting the ability to construct objects using different combinations of optional parts. Other implementations overlook the immutability aspect and allow the final product to be altered after its creation. The following example illustrates a Java implementation that is able to support both immutatbility and flexible configuration. It leverages nested classes, access modifiers, and association relationships to achieve this goal.
+
+```Java
+
+public class Button {
+    private String bgColor;
+    private String textColor;
+    private String text;
+
+    private Button() {
+    }
+
+    public static class Builder {
+        private Button button;
+
+        public Builder() {
+            button = new Button();
+        }
+
+        public Builder setBgColor(String color) {
+            button.bgColor = color;
+            return this;
+        }
+
+        public Builder setTextColor(String color) {
+            button.textColor = color;
+            return this;
+        }
+
+        public Builder setText(String text) {
+            button.text = text;
+            return this;
+        }
+
+        public void reset() {
+            button = new Button();
+        }
+
+        public Button build() {
+            Button result = button;
+            reset();
+            return result;
+        }
+    }
+}
+
+```
+
+In the above example, the product class defines an enclosed builder that holds an internal reference to a product instance. The Builder exposes methods to configure this instance, directly modifying its private fields. To ensure immutability and prevent external access during construction, a specialized method (the build() method) returns the final Button instance by capturing it in a temporary variable. Immediately after, the builder's internal reference is reset, allowing the builder to be reused for other instances. This approach ensures that the returned Button instance is immutable, as it is no longer tied to the builder's mutable state.
+
+### Prototype
+
+Defines a mechanism for cloning an object without specifying its concrete class. It achieves this by having all objects that support this ability implement a common interface or inherit from a superclass known as the prototype. The prototype interface (or the superclass) defines a clone method, which is then implemented by a concrete class. The concrete clone method calls a constructor method and passes the instance itself as a parameter. This allows the constructor to copy the values defined in the class from the passed object into the clone. If the object being cloned is a subclass, the copy constructor must also call the superclass constructor to ensure that private fields from the superclass are also cloned.
 
 ## Structural Patterns
 
+Structural patterns provide high-level solutions for recurring problems related to object composition.
+
 ## Behavioral Patterns
+
+Behavioral patterns provide high-level solutions for recurring problems related to how objects interact with each other.
