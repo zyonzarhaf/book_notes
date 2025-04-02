@@ -358,7 +358,7 @@ In the above example, the product class defines an enclosed builder that holds a
 
 ### Prototype
 
-Defines a mechanism for cloning an object without specifying its concrete class. It achieves this by having all objects that support this ability implement a common interface or inherit from a superclass known as the prototype. The prototype interface (or the superclass) defines a clone method, which is then implemented by a concrete class. The concrete clone method calls a constructor method and passes the instance itself as a parameter. This allows the constructor to copy the values defined in the class from the passed object into the clone. If the object being cloned is a subclass, the copy constructor must also call the superclass constructor to ensure that private fields from the superclass are also cloned.
+Provides a mechanism for cloning objects without specifying their concrete class. In this pattern, objects implement a common interface or inherit from a superclass, referred to as the prototype, which defines an abstract clone method. Each concrete class provides its own implementation of the clone method, typically by invoking the class constructor and passing the existing object as a parameter. The constructor then copies all fields from the original object into the new instance, effectively creating a clone. For subclasses, the copy constructor must also call the superclass constructor to ensure that private fields from the superclass are properly cloned.
 
 ## Structural Patterns
 
