@@ -193,9 +193,7 @@ According to this principle, classes should be open for extension but closed for
 
 ## Liskov Substitution Principle
 
-The Liskov substitution principle states that a certain type T can be replaced by a type S without breaking the program as long as S is a subtype of T. But there is more to it.
-
-To fully satisfy the Liskov substitution principle, the following requirements must be met:
+The Liskov substitution principle states that a certain type T can be replaced by a type S without breaking the program as long as S is a subtype of T. S is considered a subtype of T if it meets the following requirements:
 
 1. Parameter Types: In methods of a subclass, parameter types should match or be more abstract than those in the superclass.
 
